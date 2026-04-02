@@ -1,0 +1,10 @@
+        ThumbnailService.shared.generateThumbnail(for: URL(fileURLWithPath: item.filePath)) { image in
+            if let image = image {
+                withAnimation(.easeIn(duration: 0.2)) {
+                    self.thumbnail = image
+                    self.isThumbnailLoaded = true
+                }
+            }
+        }
+    }
+}

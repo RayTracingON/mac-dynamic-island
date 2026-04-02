@@ -1,0 +1,10 @@
+                        in: 20...200
+                    )
+                    .frame(width: 150)
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .padding()
+    }
+}

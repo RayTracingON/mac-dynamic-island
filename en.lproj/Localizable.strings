@@ -1,0 +1,149 @@
+/* ===== Menu Items ===== */
+"menu.toggle" = "Toggle";
+"menu.show" = "Show";
+"menu.hide" = "Hide";
+"menu.start_timer" = "Start Timer (5 min)";
+"menu.quick_start" = "Quick Start";
+"menu.settings" = "Settings";
+"menu.diagnostics" = "Copy Diagnostics";
+"menu.check_updates" = "Check for Updates…";
+"menu.safe_mode" = "Safe Mode";
+"menu.export_diagnostics" = "Export Diagnostics…";
+"menu.reset_settings" = "Reset Settings…";
+"menu.quit" = "Quit";
+"menu_tray" = "Tray";
+
+/* ===== Settings Window ===== */
+"settings.title" = "Settings";
+"settings.startup.header" = "Startup";
+"settings.startup.launch_at_login" = "Launch at login";
+"settings.behavior.header" = "Behavior";
+"settings.behavior.show_on_hover" = "Show on hover";
+"settings.behavior.show_on_hover_help" = "Show overlay when mouse approaches it";
+"settings.display.header" = "Display";
+"settings.display.show_on" = "Show on";
+"settings.display.mode.main_only" = "Main Screen Only";
+"settings.display.mode.active" = "Active Screen";
+"settings.display.mode.all" = "All Displays";
+"settings.appearance.header" = "Appearance";
+"settings.appearance.panel_width" = "Panel width";
+"settings.appearance.panel_width_unit" = "px";
+"settings.appearance.reduce_motion" = "Reduce motion";
+"settings.appearance.reduce_motion_help" = "Minimize animations (in addition to system setting)";
+
+/* ===== Overlay UI ===== */
+"overlay.title_drop_here" = "Drop here";
+"overlay.subtitle_supports" = "Supports apps, files, URLs and text";
+"overlay.title_file" = "File";
+"overlay.subtitle_file_received" = "File received";
+"overlay.title_url" = "URL";
+"overlay.subtitle_url_received" = "Link received";
+"overlay.title_text" = "Text";
+"overlay.subtitle_text_received" = "Text received";
+"overlay.title_clipboard" = "Clipboard";
+"overlay.subtitle_clipboard_updated" = "Clipboard updated";
+
+/* ===== Buttons ===== */
+"button.action" = "Action";
+"button.open" = "Open";
+"button.copy" = "Copy";
+"button.dismiss" = "Dismiss";
+"button.ok" = "OK";
+"button.cancel" = "Cancel";
+"button.reset" = "Reset";
+"button.skip" = "Skip";
+"btn_primary" = "Action";
+"btn_open" = "Open";
+"btn_copy" = "Copy";
+"title_drop_here" = "Drop here";
+"title_file" = "File";
+"title_url" = "URL";
+"title_text" = "Text";
+"title_clipboard" = "Clipboard";
+"subtitle_supports" = "Supports apps, files, URLs and text";
+"subtitle_file_received" = "File received";
+"subtitle_url_received" = "Link received";
+"subtitle_text_received" = "Text received";
+"subtitle_clipboard_updated" = "Clipboard updated";
+"hint_drop_received" = "Ready for action";
+"hint_clipboard_updated" = "Clipboard updated";
+"hint_copied" = "Copied";
+
+/* ===== Hints ===== */
+"hint.drop_received" = "Ready for action";
+"hint.clipboard_updated" = "Clipboard updated";
+"hint.copied" = "Copied";
+
+/* ===== Update Checking ===== */
+"update.available_title" = "Update Available";
+"update.available_message" = "Version %@ is available";
+"update.release_notes" = "Release Notes:";
+"update.download" = "Download";
+"update.remind_later" = "Remind Later";
+"update.no_updates" = "No Updates Available";
+"update.current_version" = "You are on the latest version.";
+"update.error_title" = "Update Check Failed";
+"update.error_message" = "Could not check for updates: %@";
+"update.checking" = "Checking for updates…";
+
+/* ===== Export Diagnostics ===== */
+"export.diagnostics_title" = "Export Diagnostics";
+"export.success_title" = "Export Successful";
+"export.success_message" = "Diagnostics saved to %@";
+"export.error_title" = "Export Failed";
+"export.error_message" = "Could not save diagnostics: %@";
+"export.filename" = "Mac灵动岛-Diagnostics.txt";
+
+/* ===== Reset Settings ===== */
+"reset.settings_title" = "Reset Settings?";
+"reset.settings_message" = "This will restore all settings to defaults. Continue?";
+"reset.complete_title" = "Settings Reset";
+"reset.complete_message" = "Settings have been reset to defaults.";
+
+/* ===== Activity Messages ===== */
+"activity.clipboard.title" = "Clipboard";
+"activity.clipboard.image" = "Image copied";
+"activity.drop.title" = "Items Added";
+"activity.drop.message" = "Added %@ item(s)";
+"activity.drop.error.title" = "Drop Failed";
+"activity.drop.open_tray" = "Open Tray";
+"activity.timer.title" = "Timer";
+"activity.timer.stop" = "Stop";
+"activity.timer.done.title" = "Timer Done";
+"activity.timer.done.message" = "Time's up!";
+
+/* ===== Tray Actions ===== */
+"tray.reveal" = "Reveal in Finder";
+"tray.copy_path" = "Copy Path";
+"tray.remove" = "Remove";
+"tray.clear_all" = "Clear All";
+"tray.missing_file" = "(Missing)";
+
+/* ===== Accessibility Permission ===== */
+"accessibility_required_title" = "Accessibility Permission Required";
+"accessibility_required_message" = "Mac灵动岛 needs Accessibility permission to enable global hotkeys (⌘⇧Space to toggle, ⌘⌥V for clipboard) and seamless drag-drop across apps.\n\nPlease enable it in System Settings > Privacy & Security > Accessibility.";
+"open_settings" = "Open Settings";
+"later" = "Later";
+"accessibility.banner.title" = "Enable Global Hotkeys";
+"accessibility.banner.message" = "Grant Accessibility permission to use keyboard shortcuts";
+
+/* ===== Onboarding ===== */
+"onboarding.welcome.title" = "Welcome to Mac灵动岛";
+"onboarding.welcome.subtitle" = "Your Dynamic Island for macOS";
+"onboarding.permissions.title" = "Required Permissions";
+"onboarding.permissions.accessibility" = "Accessibility";
+"onboarding.permissions.accessibility.desc" = "For global hotkeys and drag-drop";
+"onboarding.permissions.calendar" = "Calendar";
+"onboarding.permissions.calendar.desc" = "To show upcoming events";
+"onboarding.permissions.music" = "Apple Music";
+"onboarding.permissions.music.desc" = "To display now playing info";
+"onboarding.permissions.granted" = "Granted";
+"onboarding.permissions.notgranted" = "Not Granted";
+"onboarding.done" = "Get Started";
+
+/* ===== About ===== */
+"about.version" = "Version %@ (%@)";
+"about.copyright" = "© 2026 Mac灵动岛. All rights reserved.";
+"about.acknowledgements" = "Acknowledgements";
+"about.privacy_policy" = "Privacy Policy";
+"about.terms_of_service" = "Terms of Service";

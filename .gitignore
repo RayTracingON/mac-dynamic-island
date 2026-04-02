@@ -1,0 +1,13 @@
+.DS_Store
+.vscode/
+.xcode_env_suppress_xpc
+build/
+dist/
+DerivedData/
+results.txt
+*.backup
+*.backup.*
+*.bak
+*.xcuserstate
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
