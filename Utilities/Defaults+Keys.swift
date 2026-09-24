@@ -17,23 +17,6 @@ struct SettingsKey<T> {
     let defaultValue: T
 }
 
-@propertyWrapper
-struct UserDefault<T> {
-    let key: SettingsKey<T>
-    
-    var wrappedValue: T {
-        get {
-            if let value = UserDefaults.standard.object(forKey: key.key) as? T {
-                return value
-            }
-            return key.defaultValue
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: key.key)
-        }
-    }
-}
-
 final class SettingsDefaults: ObservableObject {
     static let shared = SettingsDefaults()
     private init() {}
@@ -51,7 +34,6 @@ final class SettingsDefaults: ObservableObject {
     // MARK: - Appearance
     static let cornerRadiusScaling = SettingsKey(key: "cornerRadiusScaling", defaultValue: 1.0)
     static let lightingEffect = SettingsKey(key: "lightingEffect", defaultValue: true)
-    static let alwaysShowTabs = SettingsKey(key: "alwaysShowTabs", defaultValue: false)
     static let enableBlur = SettingsKey(key: "enableBlur", defaultValue: true)
     static let enableGradient = SettingsKey(key: "enableGradient", defaultValue: true)
     
@@ -63,37 +45,8 @@ final class SettingsDefaults: ObservableObject {
     static let enableLyrics = SettingsKey(key: "enableLyrics", defaultValue: true)
     static let lyricsSource = SettingsKey(key: "lyricsSource", defaultValue: "auto")
     static let musicControlSlotLimit = SettingsKey(key: "musicControlSlotLimit", defaultValue: 5)
-    static let mediaInactivityTimeout = SettingsKey(key: "mediaInactivityTimeout", defaultValue: 5.0)
-    static let sneakPeekEnabled = SettingsKey(key: "sneakPeekEnabled", defaultValue: true)
     static let sliderColor = SettingsKey(key: "sliderColor", defaultValue: "white")
-    
-    // MARK: - Calendar
-    static let showCalendar = SettingsKey(key: "showCalendar", defaultValue: true)
-    static let calendarEnabled = SettingsKey(key: "calendarEnabled", defaultValue: true)
-    static let upcomingEventLookAheadDuration = SettingsKey(key: "upcomingEventLookAheadDuration", defaultValue: 12)
-    static let showMeetingJoinButton = SettingsKey(key: "showMeetingJoinButton", defaultValue: true)
-    
-    // MARK: - Camera
-    static let showMirror = SettingsKey(key: "showMirror", defaultValue: true)
-    
-    // MARK: - Battery
-    static let batteryIndicatorEnabled = SettingsKey(key: "batteryIndicatorEnabled", defaultValue: true)
-    static let showBatteryIndicator = SettingsKey(key: "showBatteryIndicator", defaultValue: true)
-    static let showPowerStatusNotifications = SettingsKey(key: "showPowerStatusNotifications", defaultValue: true)
-    static let showBatteryPercentage = SettingsKey(key: "showBatteryPercentage", defaultValue: false)
-    static let showTimeRemaining = SettingsKey(key: "showTimeRemaining", defaultValue: false)
-    static let colorizeBatteryLevel = SettingsKey(key: "colorizeBatteryLevel", defaultValue: true)
-    static let lowPowerModeAlert = SettingsKey(key: "lowPowerModeAlert", defaultValue: true)
-    
-    // MARK: - HUD
-    static let hudReplacement = SettingsKey(key: "hudReplacement", defaultValue: false)
-    static let inlineHUD = SettingsKey(key: "inlineHUD", defaultValue: true)
-    static let showHUDPercentage = SettingsKey(key: "showHUDPercentage", defaultValue: true)
-    static let showOpenNotchHUD = SettingsKey(key: "showOpenNotchHUD", defaultValue: true)
-    static let systemEventIndicatorShadow = SettingsKey(key: "systemEventIndicatorShadow", defaultValue: true)
-    static let systemEventIndicatorUseAccent = SettingsKey(key: "systemEventIndicatorUseAccent", defaultValue: true)
-    static let optionKeyAction = SettingsKey(key: "optionKeyAction", defaultValue: 0)
-    
+
     // MARK: - Shelf
     static let boringShelf = SettingsKey(key: "boringShelf", defaultValue: true)
     
@@ -102,13 +55,15 @@ final class SettingsDefaults: ObservableObject {
     static let closeGestureEnabled = SettingsKey(key: "closeGestureEnabled", defaultValue: true)
     static let gestureSensitivity = SettingsKey(key: "gestureSensitivity", defaultValue: CGFloat(50.0))
     
+    // MARK: - Claude Code
+    static let showAgentLiveActivity = SettingsKey(key: "showAgentLiveActivity", defaultValue: true)
+    static let agentSoundsEnabled = SettingsKey(key: "agentSoundsEnabled", defaultValue: true)
+
     // MARK: - Display
     static let showOnAllDisplays = SettingsKey(key: "showOnAllDisplays", defaultValue: false)
     static let automaticallySwitchDisplay = SettingsKey(key: "automaticallySwitchDisplay", defaultValue: true)
     static let expandedDragDetection = SettingsKey(key: "expandedDragDetection", defaultValue: true)
-    static let hideFromScreenRecording = SettingsKey(key: "hideFromScreenRecording", defaultValue: false)
-    static let showOnLockScreen = SettingsKey(key: "showOnLockScreen", defaultValue: false)
-    
+
     // MARK: - Advanced
     static let settingsIconInNotch = SettingsKey(key: "settingsIconInNotch", defaultValue: true)
     static let showNotHumanFace = SettingsKey(key: "showNotHumanFace", defaultValue: true)

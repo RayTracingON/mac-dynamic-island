@@ -53,27 +53,15 @@
     <true/>
     
     <!-- Privacy Usage Descriptions - English -->
-    <key>NSCalendarsUsageDescription</key>
-    <string>Mac灵动岛 needs access to your calendar to display upcoming events in the Dynamic Island overlay.</string>
-    
-    <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>Mac灵动岛 needs full calendar access to show your upcoming events and allow quick interactions.</string>
-    
-    <key>NSRemindersUsageDescription</key>
-    <string>Mac灵动岛 needs access to your reminders to display pending tasks in the Dynamic Island overlay.</string>
-    
-    <key>NSRemindersFullAccessUsageDescription</key>
-    <string>Mac灵动岛 needs full reminders access to show your tasks and allow quick completion.</string>
-    
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Mac灵动岛 uses Apple Events to read lyrics from Music, to paste clipboard items into the frontmost app, and to bring the terminal tab of a Claude Code session to the front.</string>
+
     <key>NSAppleMusicUsageDescription</key>
     <string>Mac灵动岛 needs access to Apple Music to display now playing information and control playback.</string>
     
     <key>NSAccessibilityUsageDescription</key>
     <string>Mac灵动岛 needs Accessibility permissions to enable global hotkeys and drag-drop interactions across all apps.</string>
-    
-    <key>NSSystemAdministrationUsageDescription</key>
-    <string>Mac灵动岛 needs system administration access to adjust display brightness and system HUD settings.</string>
-    
+
     <!-- App Transport Security -->
     <key>NSAppTransportSecurity</key>
     <dict>

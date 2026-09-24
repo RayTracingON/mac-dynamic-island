@@ -65,21 +65,16 @@ struct MainSettingsView: View {
                     Label(L("settings.tab.media"), systemImage: "music.note")
                 }
             
-            CalendarSettingsView()
+            AgentSettingsView()
                 .tabItem {
-                    Label(L("settings.tab.calendar"), systemImage: "calendar")
+                    Label("Claude Code", systemImage: "terminal")
                 }
-            
-            BatterySettingsView()
+
+            ClipboardSettingsWindow(hubStore: OverlayWindowController.shared.getAppState().clipVault)
                 .tabItem {
-                    Label(L("settings.tab.battery"), systemImage: "battery.100")
+                    Label(L("settings.tab.clipboard"), systemImage: "doc.on.clipboard")
                 }
-            
-            HUDSettingsView()
-                .tabItem {
-                    Label(L("settings.tab.huds"), systemImage: "speaker.wave.2")
-                }
-            
+
             ShelfSettingsView()
                 .tabItem {
                     Label(L("settings.tab.shelf"), systemImage: "shippingbox")
