@@ -7,19 +7,19 @@ final class AgentSessionStoreTests: XCTestCase {
     private let start = Date(timeIntervalSince1970: 1_800_000_000)
 
     private func event(
-        _ kind: ClaudeHookEvent.Kind,
+        _ kind: AgentHookEvent.Kind,
         at offset: TimeInterval,
         session: String = "s1",
-        _ configure: (inout ClaudeHookEvent) -> Void = { _ in }
-    ) -> ClaudeHookEvent {
-        var event = ClaudeHookEvent(kind: kind, sessionID: session, time: start.addingTimeInterval(offset))
+        _ configure: (inout AgentHookEvent) -> Void = { _ in }
+    ) -> AgentHookEvent {
+        var event = AgentHookEvent(kind: kind, sessionID: session, time: start.addingTimeInterval(offset))
         event.cwd = "/Users/me/code/island"
         configure(&event)
         return event
     }
 
     /// Delivered as it happens, or later when `arrivingAt` is given
-    private func deliver(_ event: ClaudeHookEvent, to store: AgentSessionStore, arrivingAt arrival: TimeInterval? = nil) {
+    private func deliver(_ event: AgentHookEvent, to store: AgentSessionStore, arrivingAt arrival: TimeInterval? = nil) {
         store.apply(event, now: arrival.map { start.addingTimeInterval($0) } ?? event.time)
     }
 
@@ -210,7 +210,7 @@ final class AgentSessionStoreTests: XCTestCase {
              "tool_input":{"todos":[{"content":"Plan","status":"completed","activeForm":"Planning"},
                                     {"content":"Build","status":"in_progress","activeForm":"Building"}]}}
             """
-        let event = try XCTUnwrap(ClaudeHookEvent(forwarded: Data((header + "\n" + input).utf8)))
+        let event = try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + input).utf8)))
 
         XCTAssertEqual(event.kind, .preToolUse)
         XCTAssertEqual(event.sessionID, "abc")
@@ -220,7 +220,271 @@ final class AgentSessionStoreTests: XCTestCase {
         XCTAssertEqual(event.todos?.map(\.title), ["Plan", "Building"], "the task in progress shows what Claude is doing")
         XCTAssertEqual(event.todos?.map(\.isCompleted), [true, false])
 
-        XCTAssertNil(ClaudeHookEvent(forwarded: Data(#"{"hook_event_name":"Stop"}"#.utf8)), "no header line")
-        XCTAssertNil(ClaudeHookEvent(forwarded: Data("{}\n{\"hook_event_name\":\"Stop\"}".utf8)), "no session")
+        XCTAssertNil(AgentHookEvent(forwarded: Data(#"{"hook_event_name":"Stop"}"#.utf8)), "no header line")
+        XCTAssertNil(AgentHookEvent(forwarded: Data("{}\n{\"hook_event_name\":\"Stop\"}".utf8)), "no session")
+    }
+
+    func testParsesCodexPlansAndPatches() throws {
+        let header = #"{"time":"1800000000","agent":"codex","cwd":"/tmp/fallback"}"#
+        let plan = """
+            {"session_id":"c1","hook_event_name":"PreToolUse","cwd":"/tmp/app","turn_id":"t","tool_name":"update_plan",
+             "tool_input":{"explanation":"","plan":[{"step":"Read the code","status":"completed"},
+                                                    {"step":"Write the fix","status":"in_progress"},
+                                                    {"step":"Run the tests","status":"pending"}]}}
+            """
+        let planEvent = try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + plan).utf8)))
+        XCTAssertEqual(planEvent.agent, .codex)
+        XCTAssertEqual(planEvent.cwd, "/tmp/app", "the event's own cwd beats the helper's")
+        XCTAssertEqual(planEvent.todos?.map(\.title), ["Read the code", "Write the fix", "Run the tests"])
+        XCTAssertEqual(planEvent.todos?.map(\.isCompleted), [true, false, false])
+        XCTAssertEqual(planEvent.todos?.map(\.isActive), [false, true, false])
+
+        let patch = #"{"session_id":"c1","hook_event_name":"PreToolUse","tool_name":"apply_patch","tool_input":{"command":"*** Begin Patch\n*** Update File: Sources/App/Main.swift\n@@\n-a\n+b\n*** Add File: README.md\n+hi\n*** End Patch"}}"#
+        let patchEvent = try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + patch).utf8)))
+        XCTAssertEqual(patchEvent.toolActivity, "apply_patch · Main.swift +1")
+        XCTAssertEqual(patchEvent.cwd, "/tmp/fallback", "the helper's directory stands in for a missing cwd")
+
+        let bash = #"{"session_id":"c1","hook_event_name":"PermissionRequest","tool_name":"Bash","tool_input":{"command":"swift test"}}"#
+        XCTAssertEqual(AgentHookEvent(forwarded: Data((header + "\n" + bash).utf8))?.toolActivity, "Bash · swift test")
+    }
+
+    func testParsesZCodeToolInput() throws {
+        let header = #"{"time":"1800000000","agent":"zcode"}"#
+        let input = #"{"sessionId":"z1","session_id":"z1","hook_event_name":"PreToolUse","cwd":"/tmp/app","tool_name":"Edit","tool_input":{"path":"/tmp/app/Views/Row.swift","old_string":"a","new_string":"b"}}"#
+        let event = try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + input).utf8)))
+        XCTAssertEqual(event.agent, .zcode)
+        XCTAssertEqual(event.toolActivity, "Edit · Row.swift")
+    }
+
+    func testACodexInterruptLeavesTheSessionReady() throws {
+        let store = AgentSessionStore()
+        deliver(event(.userPromptSubmit, at: 0) { $0.agent = .codex; $0.prompt = "Refactor" }, to: store)
+        deliver(event(.preToolUse, at: 1) { $0.agent = .codex; $0.toolName = "Bash" }, to: store)
+        XCTAssertEqual(store.liveSession?.agent, .codex)
+
+        deliver(event(.interrupt, at: 5) { $0.agent = .codex }, to: store)
+
+        let session = try XCTUnwrap(store.sessions.first)
+        XCTAssertEqual(session.status, .idle)
+        XCTAssertNil(session.activity)
+        XCTAssertEqual(session.elapsed(at: start.addingTimeInterval(100)), 5, "the turn stopped when you interrupted it")
+        XCTAssertNil(store.liveSession, "nothing to show beside the notch")
+    }
+
+    func testASessionWithoutADirectoryIsNamedAfterItsAgent() {
+        var session = AgentSession(id: "z", updatedAt: start)
+        session.apply(AgentHookEvent(kind: .sessionStart, sessionID: "z", agent: .zcode, time: start), now: start)
+        XCTAssertEqual(session.projectName, "ZCode")
+    }
+
+    // MARK: - Questions
+
+    private let layoutQuestion = AgentQuestion(
+        text: "Which layout?",
+        header: "Layout",
+        options: [.init(label: "Grid", description: nil), .init(label: "List", description: nil)],
+        allowsMultipleSelection: false
+    )
+
+    private func askEvent(at offset: TimeInterval) -> AgentHookEvent {
+        event(.permissionRequest, at: offset) {
+            $0.toolName = AgentHookEvent.askUserQuestionTool
+            $0.questions = [self.layoutQuestion]
+            $0.toolInputJSON = try? JSONSerialization.data(withJSONObject: ["questions": [["question": "Which layout?"]]])
+            $0.canReply = true
+        }
+    }
+
+    /// A connected pair: the reply the store answers on, and the end the hook would read
+    private func makeReply() throws -> (reply: AgentHookReply, hookEnd: FileHandle) {
+        var fds: [Int32] = [0, 0]
+        XCTAssertEqual(socketpair(AF_UNIX, SOCK_STREAM, 0, &fds), 0)
+        return (AgentHookReply(fd: fds[0]), FileHandle(fileDescriptor: fds[1], closeOnDealloc: true))
+    }
+
+    func testAQuestionWaitsForYourAnswerInTheIsland() throws {
+        let store = AgentSessionStore()
+        var opened: [AgentPrompt] = []
+        store.onPrompt = { opened.append($0) }
+        let (reply, hookEnd) = try makeReply()
+
+        deliver(event(.preToolUse, at: 1) { $0.toolName = AgentHookEvent.askUserQuestionTool }, to: store)
+        store.apply(askEvent(at: 2), reply: reply, now: start.addingTimeInterval(2))
+
+        let session = try XCTUnwrap(store.sessions.first)
+        XCTAssertEqual(session.status, .needsPermission)
+        XCTAssertTrue(session.isAsking)
+        XCTAssertEqual(session.message, "Which layout?")
+        XCTAssertEqual(session.statusText, "Has a question")
+        let question = try XCTUnwrap(store.pendingPrompts.first)
+        XCTAssertTrue(question.canAnswer)
+        XCTAssertTrue(question.isQuestion)
+        XCTAssertEqual(opened.map(\.id), [question.id], "the island opens on it")
+
+        store.answer(question.id, with: ["Which layout?": "Grid"])
+
+        XCTAssertTrue(store.pendingPrompts.isEmpty)
+        let output = try XCTUnwrap(JSONSerialization.jsonObject(with: hookEnd.readDataToEndOfFile()) as? [String: Any])
+        let decision = (output["hookSpecificOutput"] as? [String: Any])?["decision"] as? [String: Any]
+        XCTAssertEqual((decision?["updatedInput"] as? [String: Any])?["answers"] as? [String: String], ["Which layout?": "Grid"])
+
+        deliver(event(.postToolUse, at: 9) { $0.toolName = AgentHookEvent.askUserQuestionTool }, to: store)
+        XCTAssertEqual(store.sessions.first?.status, .working)
+        XCTAssertEqual(store.sessions.first?.isAsking, false)
+    }
+
+    func testAnsweringInTheTerminalLetsTheHookGo() throws {
+        let store = AgentSessionStore()
+        let (reply, hookEnd) = try makeReply()
+        store.apply(askEvent(at: 2), reply: reply, now: start.addingTimeInterval(2))
+
+        // The async PreToolUse from before the question can arrive after it
+        deliver(event(.preToolUse, at: 1) { $0.toolName = AgentHookEvent.askUserQuestionTool }, to: store, arrivingAt: 3)
+        XCTAssertEqual(store.pendingPrompts.count, 1, "an older event doesn't settle it")
+
+        deliver(event(.postToolUse, at: 20) { $0.toolName = AgentHookEvent.askUserQuestionTool }, to: store)
+
+        XCTAssertTrue(store.pendingPrompts.isEmpty)
+        XCTAssertTrue(hookEnd.readDataToEndOfFile().isEmpty, "closed without an answer: Claude Code keeps what you chose in the terminal")
+    }
+
+    func testAQuestionFromASessionTheIslandCantAnswerIsStillShown() throws {
+        let store = AgentSessionStore()
+        var askEvent = askEvent(at: 2)
+        askEvent.canReply = false
+        deliver(askEvent, to: store)
+
+        XCTAssertEqual(store.pendingPrompts.first?.canAnswer, false)
+        store.archive("s1")
+        XCTAssertTrue(store.pendingPrompts.isEmpty, "a question goes with its session")
+    }
+
+    func testParsesAskUserQuestion() throws {
+        let header = #"{"time":"1800000000","agent":"claude","can_reply":"1"}"#
+        let input = """
+            {"session_id":"q1","hook_event_name":"PermissionRequest","tool_name":"AskUserQuestion",
+             "tool_input":{"questions":[{"question":"Which features?","header":"Features","multiSelect":true,
+                                         "options":[{"label":"Search","description":"Find by name"},{"label":"Tags"}]},
+                                        {"question":"Anything else?","header":"Notes","options":[]}]}}
+            """
+        let event = try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + input).utf8)))
+
+        XCTAssertTrue(event.canReply)
+        let questions = try XCTUnwrap(event.questions)
+        XCTAssertEqual(questions.map(\.text), ["Which features?", "Anything else?"])
+        XCTAssertEqual(questions[0].header, "Features")
+        XCTAssertTrue(questions[0].allowsMultipleSelection)
+        XCTAssertEqual(questions[0].options, [.init(label: "Search", description: "Find by name"), .init(label: "Tags", description: nil)])
+        XCTAssertTrue(questions[1].options.isEmpty)
+
+        let output = try XCTUnwrap(AgentHookEvent.answerOutput(toolInput: event.toolInputJSON, answers: ["Which features?": "Search, Tags"]))
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: output) as? [String: Any])
+        let updatedInput = ((json["hookSpecificOutput"] as? [String: Any])?["decision"] as? [String: Any])?["updatedInput"] as? [String: Any]
+        XCTAssertEqual(updatedInput?["answers"] as? [String: String], ["Which features?": "Search, Tags"])
+        XCTAssertEqual((updatedInput?["questions"] as? [[String: Any]])?.count, 2)
+    }
+
+    // MARK: - Permissions
+
+    private func permissionEvent(_ command: String, at offset: TimeInterval) throws -> AgentHookEvent {
+        let header = #"{"time":"\#(1_800_000_000 + offset)","agent":"claude","can_reply":"1"}"#
+        let input = """
+            {"session_id":"s1","hook_event_name":"PermissionRequest","cwd":"/Users/me/code/island","tool_name":"Bash",
+             "tool_input":{"command":"\(command)","description":"Run it"},
+             "permission_suggestions":[{"type":"addRules","rules":[{"toolName":"Bash","ruleContent":"\(command):*"}],
+                                        "behavior":"allow","destination":"localSettings"}]}
+            """
+        return try XCTUnwrap(AgentHookEvent(forwarded: Data((header + "\n" + input).utf8)))
+    }
+
+    private func decision(from hookEnd: FileHandle) throws -> [String: Any] {
+        let output = try XCTUnwrap(JSONSerialization.jsonObject(with: hookEnd.readDataToEndOfFile()) as? [String: Any])
+        return try XCTUnwrap((output["hookSpecificOutput"] as? [String: Any])?["decision"] as? [String: Any])
+    }
+
+    func testParsesAPermissionRequest() throws {
+        let event = try permissionEvent("npm test", at: 0)
+        let permission = try XCTUnwrap(event.permission)
+        XCTAssertEqual(permission.toolName, "Bash")
+        XCTAssertEqual(permission.summary, "Bash · Run it")
+        XCTAssertEqual(permission.detail, "npm test")
+        XCTAssertEqual(permission.alwaysAllowDescription, "Bash(npm test:*) in this project")
+        XCTAssertNotNil(event.permissionSuggestionsJSON)
+
+        XCTAssertEqual(AgentHookEvent.alwaysAllowDescription(of: [
+            ["type": "setMode", "mode": "acceptEdits", "destination": "session"],
+            ["type": "addDirectories", "directories": ["/tmp/out"], "destination": "session"],
+        ]), "all edits in this session; access to /tmp/out in this session")
+        XCTAssertNil(AgentHookEvent.alwaysAllowDescription(of: []))
+    }
+
+    func testAllowingInTheIsland() throws {
+        let store = AgentSessionStore()
+        let (reply, hookEnd) = try makeReply()
+        store.apply(try permissionEvent("npm test", at: 1), reply: reply, now: start.addingTimeInterval(1))
+        let prompt = try XCTUnwrap(store.pendingPrompts.first)
+        XCTAssertFalse(prompt.isQuestion)
+        XCTAssertEqual(store.sessions.first?.status, .needsPermission)
+
+        store.allow(prompt.id)
+
+        let decision = try decision(from: hookEnd)
+        XCTAssertEqual(decision["behavior"] as? String, "allow")
+        XCTAssertNil(decision["updatedPermissions"], "allowed once")
+        XCTAssertTrue(store.pendingPrompts.isEmpty)
+    }
+
+    func testAlwaysAllowHandsBackClaudesSuggestions() throws {
+        let store = AgentSessionStore()
+        let (reply, hookEnd) = try makeReply()
+        store.apply(try permissionEvent("npm test", at: 1), reply: reply, now: start.addingTimeInterval(1))
+
+        store.allow(try XCTUnwrap(store.pendingPrompts.first).id, always: true)
+
+        let rules = try XCTUnwrap(try decision(from: hookEnd)["updatedPermissions"] as? [[String: Any]])
+        XCTAssertEqual(rules.first?["destination"] as? String, "localSettings")
+        XCTAssertEqual((rules.first?["rules"] as? [[String: Any]])?.first?["ruleContent"] as? String, "npm test:*")
+    }
+
+    func testDenyingStopsTheTurnUnlessYouSayWhatToDoInstead() throws {
+        let store = AgentSessionStore()
+        let (reply, hookEnd) = try makeReply()
+        store.apply(try permissionEvent("rm -rf build", at: 1), reply: reply, now: start.addingTimeInterval(1))
+        store.deny(try XCTUnwrap(store.pendingPrompts.first).id)
+
+        let stopped = try decision(from: hookEnd)
+        XCTAssertEqual(stopped["behavior"] as? String, "deny")
+        XCTAssertEqual(stopped["interrupt"] as? Bool, true, "like Esc in the terminal")
+        XCTAssertEqual(store.sessions.first?.status, .idle, "Claude Code doesn't report the stopped turn")
+
+        let (secondReply, secondEnd) = try makeReply()
+        store.apply(try permissionEvent("rm -rf build", at: 30), reply: secondReply, now: start.addingTimeInterval(30))
+        store.deny(try XCTUnwrap(store.pendingPrompts.first).id, note: "Clean with make clean instead")
+
+        let withNote = try decision(from: secondEnd)
+        XCTAssertEqual(withNote["behavior"] as? String, "deny")
+        XCTAssertNil(withNote["interrupt"])
+        XCTAssertTrue((withNote["message"] as? String)?.contains("Clean with make clean instead") == true)
+    }
+
+    func testEachWaitingPermissionIsSettledByItsOwnCall() throws {
+        let store = AgentSessionStore()
+        let (firstReply, firstEnd) = try makeReply()
+        let (secondReply, _) = try makeReply()
+        let first = try permissionEvent("npm test", at: 1)
+        store.apply(first, reply: firstReply, now: start.addingTimeInterval(1))
+        store.apply(try permissionEvent("npm run lint", at: 2), reply: secondReply, now: start.addingTimeInterval(2))
+        XCTAssertEqual(store.pendingPrompts.count, 2, "parallel tool calls wait together")
+
+        // You allowed the first one in the terminal
+        deliver(event(.postToolUse, at: 5) { $0.toolName = "Bash"; $0.toolInputJSON = first.toolInputJSON }, to: store)
+
+        XCTAssertEqual(store.pendingPrompts.count, 1)
+        guard case .permission(let remaining)? = store.pendingPrompts.first?.kind else { return XCTFail("the second call still waits") }
+        XCTAssertEqual(remaining.detail, "npm run lint")
+        XCTAssertTrue(firstEnd.readDataToEndOfFile().isEmpty, "its hook is let go without a decision")
+
+        deliver(event(.stop, at: 9), to: store)
+        XCTAssertTrue(store.pendingPrompts.isEmpty, "the turn is over")
     }
 }

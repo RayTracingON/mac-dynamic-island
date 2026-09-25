@@ -10,25 +10,34 @@ final class AppState: ObservableObject {
     let settingsStore = SettingsDefaults.shared
 
     // Clipboard history shown in the clipboard tab
-    let clipVault = IslandClipVault()
+    let clipVault: IslandClipVault
     var clipboardHub: ClipboardHubStore { clipVault }
+    /// Only the main island watches for files dragged to the notch; the drag detector knows one region
+    private let tracksDrags: Bool
 
     @Published var isOverlayVisible: Bool = true
     @Published var visibilityReason: OverlayVisibilityReason = .none
     @Published var interactionState: IslandInteractionState = .idle
     @Published var overlayMode: OverlayMode = .compact {
-        didSet { resetAutoCloseTimer() }
+        didSet { resetAutoCloseTimer(); islandSizeDidChange.send() }
     }
     @Published var currentSection: IslandSection = .music {
-        didSet { resetAutoCloseTimer() }
+        didSet { resetAutoCloseTimer(); islandSizeDidChange.send() }
     }
+    /// Sent once a new overlayMode or currentSection is stored. @Published sends before the value is stored,
+    /// and resizing the panel then makes SwiftUI lay out with the old value and miss the new one
+    let islandSizeDidChange = PassthroughSubject<Void, Never>()
     @Published var isDraggingOver: Bool = false
 
     /// Notch size of the display the island is on (.zero when it has no notch)
     @Published var notchSize: CGSize = .zero
-    /// Whether the collapsed island shows the now-playing wings. Set by OverlayWindowController
-    /// after it has sized the panel, so the view never animates outside the panel.
-    @Published var showsLiveActivity: Bool = false
+    /// Collapsed content beside the notch, as wide as the menus and status icons leave room for.
+    /// Set by OverlayWindowController after it has sized the panel, so the view never animates outside the panel.
+    @Published var liveActivityWings: IslandWings = .none
+    /// Whether the collapsed island shows its live activity (now playing or an agent session) beside the notch
+    var showsLiveActivity: Bool { !liveActivityWings.isEmpty }
+    /// The pointer is on the collapsed island: paused music shows beside the notch while it stays there
+    @Published var isPeekingNotch: Bool = false
     /// Current frame of the island panel, in screen coordinates
     private(set) var islandFrame: CGRect = .zero
 
@@ -40,12 +49,18 @@ final class AppState: ObservableObject {
     private var settingsCancellable: AnyCancellable?
     private var autoCloseTimer: Timer?
 
-    init() {
+    /// State of one island. The main one owns the clipboard history and watches for dragged files;
+    /// islands on the other displays (with "all screens" on) share its history
+    init(sharingWith main: AppState? = nil) {
+        clipVault = main?.clipVault ?? IslandClipVault()
+        tracksDrags = main == nil
+
         // Sync setting changes to AppState triggers
         settingsCancellable = settingsStore.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
 
+        guard main == nil else { return }
         // Clipboard polling is started by AppIntegration; only load history here
         clipVault.loadFromDisk()
 
@@ -63,6 +78,8 @@ final class AppState: ObservableObject {
         let timeout = settingsStore.get(SettingsDefaults.autoCloseTimeout)
         autoCloseTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] _ in
             DispatchQueue.main.async {
+                // An agent's question or permission prompt stays open until you've dealt with it
+                guard self?.visibilityReason != .agentPrompt else { return }
                 self?.deactivateOverlay()
             }
         }
@@ -185,6 +202,6 @@ final class AppState: ObservableObject {
 
     func updateNotchRegion(_ region: CGRect) {
         islandFrame = region
-        DragDetectorManager.shared.updateNotchRegion(region)
+        if tracksDrags { DragDetectorManager.shared.updateNotchRegion(region) }
     }
 }

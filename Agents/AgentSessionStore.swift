@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-/// A Claude Code session as the island shows it
+/// A coding agent session as the island shows it
 struct AgentSession: Identifiable, Equatable {
     enum Status: Equatable {
         /// Started, waiting for a prompt
@@ -14,17 +14,18 @@ struct AgentSession: Identifiable, Equatable {
     }
 
     let id: String
+    var agent: AgentKind = .claude
     var cwd = ""
     var status: Status = .idle
-    /// Claude Code's title for the session (from /rename, the Claude app or Claude itself)
+    /// The agent's title for the session (from /rename, the agent's app or the model itself)
     var title: String?
-    /// Stands in for the title until Claude Code has named the session
+    /// Stands in for the title until the agent has named the session
     var firstPrompt: String?
     /// Your latest prompt
     var prompt: String?
-    /// What Claude is doing now, e.g. "Bash · Run the tests"
+    /// What the agent is doing now, e.g. "Bash · Run the tests"
     var activity: String?
-    /// The permission prompt, Claude's final reply or the error, depending on `status`
+    /// The permission prompt, the agent's final reply or the error, depending on `status`
     var message: String?
     var tasks: [AgentTask] = []
     var runningSubagents = 0
@@ -33,8 +34,10 @@ struct AgentSession: Identifiable, Equatable {
     var updatedAt: Date
     var agentPID: pid_t?
     var terminal = AgentTerminal()
-    /// Claude Code has exited; the session stays only while its finished turn is still on show
+    /// The session has ended; it stays only while its finished turn is still on show
     var hasEnded = false
+    /// Waiting for you to answer Claude's question (AskUserQuestion) rather than to allow a tool
+    var isAsking = false
 
     /// Time of the event that last set `status`, so a late event can't undo a newer one
     private var statusChangedAt = Date.distantPast
@@ -47,7 +50,7 @@ struct AgentSession: Identifiable, Equatable {
     }
 
     var projectName: String {
-        cwd.isEmpty ? "Claude Code" : URL(fileURLWithPath: cwd).lastPathComponent
+        cwd.isEmpty ? agent.displayName : URL(fileURLWithPath: cwd).lastPathComponent
     }
 
     var displayTitle: String? { title ?? firstPrompt }
@@ -56,7 +59,7 @@ struct AgentSession: Identifiable, Equatable {
 
     var completedTaskCount: Int { tasks.filter(\.isCompleted).count }
 
-    /// The task Claude is on: the one marked in progress, or else the first one left
+    /// The task the agent is on: the one marked in progress, or else the first one left
     var currentTask: AgentTask? {
         tasks.first(where: \.isActive) ?? tasks.first { !$0.isCompleted }
     }
@@ -67,8 +70,9 @@ struct AgentSession: Identifiable, Equatable {
         return max(0, (finishedAt ?? now).timeIntervalSince(turnStartedAt))
     }
 
-    mutating func apply(_ event: ClaudeHookEvent, now: Date) {
+    mutating func apply(_ event: AgentHookEvent, now: Date) {
         updatedAt = now
+        agent = event.agent
         if let cwd = event.cwd, !cwd.isEmpty { self.cwd = cwd }
         if let pid = event.agentPID { agentPID = pid }
         if event.terminal != AgentTerminal() { terminal = event.terminal }
@@ -79,6 +83,7 @@ struct AgentSession: Identifiable, Equatable {
             guard isLatest else { return }
             status = newStatus
             statusChangedAt = event.time
+            if newStatus != .needsPermission { isAsking = false }
         }
 
         switch event.kind {
@@ -120,8 +125,10 @@ struct AgentSession: Identifiable, Equatable {
             setStatus(.needsPermission)
             guard isLatest else { return }
             pendingPermissionToolUseID = event.toolUseID
-            activity = event.toolActivity
-            message = event.toolName.map { "Allow \($0)?" }
+            // Claude's question is a permission request too: its dialog is how you answer
+            isAsking = event.toolName == AgentHookEvent.askUserQuestionTool
+            activity = isAsking ? nil : event.toolActivity
+            message = isAsking ? event.questions?.first?.text : event.toolName.map { "Allow \($0)?" }
             startTurnIfNeeded(at: event.time)
 
         case .notification:
@@ -142,6 +149,16 @@ struct AgentSession: Identifiable, Equatable {
             guard isLatest else { return }
             activity = nil
             message = event.message
+            pendingPermissionToolUseID = nil
+            runningSubagents = 0
+            finishedAt = event.time
+
+        case .interrupt:
+            // Codex: you stopped the turn, and it waits for your next prompt
+            setStatus(.idle)
+            guard isLatest else { return }
+            activity = nil
+            message = nil
             pendingPermissionToolUseID = nil
             runningSubagents = 0
             finishedAt = event.time
@@ -186,10 +203,48 @@ struct AgentSession: Identifiable, Equatable {
     }
 }
 
-/// Claude Code sessions reported through island-claude-hook
+/// Something an agent is waiting on you for: one of Claude's questions, or a tool call to allow
+struct AgentPrompt: Identifiable, Equatable {
+    enum Kind: Equatable {
+        /// AskUserQuestion
+        case question([AgentQuestion])
+        case permission(AgentPermission)
+    }
+
+    let id = UUID()
+    let sessionID: String
+    let agent: AgentKind
+    let kind: Kind
+    let askedAt: Date
+    /// The hook is waiting for the island's reply; otherwise only the terminal can answer
+    let canAnswer: Bool
+    let toolName: String?
+    /// Tells which tool call a later event is about
+    let toolInputJSON: Data?
+
+    var isQuestion: Bool {
+        if case .question = kind { return true }
+        return false
+    }
+}
+
+/// Agent sessions reported through island-claude-hook
 @MainActor
 final class AgentSessionStore: ObservableObject {
     static let shared = AgentSessionStore()
+
+    /// Oldest first
+    @Published private(set) var pendingPrompts: [AgentPrompt] = []
+    /// The waiting hooks of the prompts the island can answer, with what to hand back to them
+    private var replies: [UUID: PendingReply] = [:]
+    /// Called when an agent asks you something, e.g. to open the island on it
+    var onPrompt: ((AgentPrompt) -> Void)?
+
+    private struct PendingReply {
+        let reply: AgentHookReply
+        let toolInput: Data?
+        let permissionSuggestions: Data?
+    }
 
     /// Most urgent first
     @Published private(set) var sessions: [AgentSession] = []
@@ -204,18 +259,19 @@ final class AgentSessionStore: ObservableObject {
     private var liveRefreshTask: Task<Void, Never>?
     private var pruneTimer: Timer?
 
-    /// Called when a session's status changes, e.g. to play a sound when Claude needs you
+    /// Called when a session's status changes, e.g. to play a sound when an agent needs you
     var onStatusChange: ((_ session: AgentSession, _ previous: AgentSession.Status?) -> Void)?
 
     /// Sessions working or waiting for you
     var activeSessionCount: Int { sessions.filter(\.isActive).count }
 
-    /// Whether the collapsed island shows Claude Code beside the notch
+    /// Whether the collapsed island shows an agent session beside the notch
     var showsCompactLiveActivity: Bool {
         SettingsDefaults.shared.get(SettingsDefaults.showAgentLiveActivity) && liveSession != nil
     }
 
-    func apply(_ event: ClaudeHookEvent, now: Date = Date()) {
+    /// `reply` is the waiting hook's connection, when the island can answer the event's prompt
+    func apply(_ event: AgentHookEvent, reply: AgentHookReply? = nil, now: Date = Date()) {
         var updated = sessions
         var changed: (session: AgentSession, previous: AgentSession.Status?)?
         if event.kind == .sessionEnd {
@@ -237,15 +293,118 @@ final class AgentSessionStore: ObservableObject {
             changed = (session, nil)
         }
         publish(updated, now: now)
+        let prompt = updatePrompts(for: event, reply: reply)
         if let changed { onStatusChange?(changed.session, changed.previous) }
+        if let prompt { onPrompt?(prompt) }
     }
 
-    /// Takes a session off the list; it comes back if Claude Code reports on it again
+    /// Sends your answers (question text → answer) to Claude, waiting on its question
+    func answer(_ promptID: UUID, with answers: [String: String]) {
+        respond(to: promptID, with: AgentHookEvent.answerOutput(toolInput: replies[promptID]?.toolInput, answers: answers))
+    }
+
+    /// Allows the tool call; `always` also adds the rules Claude Code suggested, like its "don't ask again"
+    func allow(_ promptID: UUID, always: Bool = false) {
+        let suggestions = always ? replies[promptID]?.permissionSuggestions : nil
+        respond(to: promptID, with: AgentHookEvent.allowOutput(permissionSuggestions: suggestions))
+    }
+
+    /// Turns the tool call down. With a note, Claude carries on with it; without one, the turn stops.
+    func deny(_ promptID: UUID, note: String? = nil) {
+        guard let prompt = pendingPrompts.first(where: { $0.id == promptID }), prompt.canAnswer else { return }
+        respond(to: promptID, with: AgentHookEvent.denyOutput(note: note))
+        if note?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
+            // Claude Code stops the turn without telling its hooks, so the session would look busy
+            apply(AgentHookEvent(kind: .interrupt, sessionID: prompt.sessionID, agent: prompt.agent, time: max(Date(), prompt.askedAt)))
+        }
+    }
+
+    /// Leaves it to the agent's own prompt in the terminal
+    func dismissPrompt(_ promptID: UUID) {
+        removePrompts { $0.id == promptID }
+    }
+
+    private func respond(to promptID: UUID, with output: Data?) {
+        if let pending = replies.removeValue(forKey: promptID) {
+            if let output {
+                pending.reply.send(output)
+            } else {
+                pending.reply.close()
+            }
+        }
+        pendingPrompts.removeAll { $0.id == promptID }
+    }
+
+    private func updatePrompts(for event: AgentHookEvent, reply: AgentHookReply?) -> AgentPrompt? {
+        if event.kind == .permissionRequest, let kind = Self.promptKind(of: event) {
+            if case .question = kind {
+                // Claude asks one question at a time; a new one means the last is settled
+                removePrompts { $0.sessionID == event.sessionID && $0.isQuestion }
+            }
+            let prompt = AgentPrompt(
+                sessionID: event.sessionID,
+                agent: event.agent,
+                kind: kind,
+                askedAt: event.time,
+                canAnswer: reply != nil,
+                toolName: event.toolName,
+                toolInputJSON: event.toolInputJSON
+            )
+            if let reply {
+                replies[prompt.id] = PendingReply(reply: reply, toolInput: event.toolInputJSON, permissionSuggestions: event.permissionSuggestionsJSON)
+            }
+            pendingPrompts.append(prompt)
+            return prompt
+        }
+        // Never leave a hook waiting on something the island doesn't show
+        reply?.close()
+        settlePrompts(after: event)
+        return nil
+    }
+
+    private static func promptKind(of event: AgentHookEvent) -> AgentPrompt.Kind? {
+        if event.toolName == AgentHookEvent.askUserQuestionTool {
+            return event.questions.map(AgentPrompt.Kind.question)
+        }
+        return event.permission.map(AgentPrompt.Kind.permission)
+    }
+
+    /// Drops what was answered or abandoned elsewhere: in the terminal, or by the turn ending
+    private func settlePrompts(after event: AgentHookEvent) {
+        // Hooks can run in the background, so an event from before a prompt can arrive after it
+        let isEarlier = { (prompt: AgentPrompt) in prompt.sessionID == event.sessionID && prompt.askedAt <= event.time }
+        switch event.kind {
+        case .postToolUse, .postToolUseFailure, .permissionDenied:
+            // The call went ahead or was turned down. A question comes back with the answers added to its
+            // input, so it goes by the tool; a permission by the call's exact input, as several can wait at once.
+            removePrompts { prompt in
+                guard isEarlier(prompt), prompt.toolName == event.toolName else { return false }
+                return prompt.isQuestion || prompt.toolInputJSON == event.toolInputJSON
+            }
+        case .userPromptSubmit, .stop, .stopFailure, .sessionStart, .sessionEnd, .interrupt:
+            removePrompts(where: isEarlier)
+        default:
+            break
+        }
+    }
+
+    /// Lets go of the prompts' waiting hooks, leaving them to the terminal
+    private func removePrompts(where shouldRemove: (AgentPrompt) -> Bool) {
+        let removed = pendingPrompts.filter(shouldRemove)
+        guard !removed.isEmpty else { return }
+        for prompt in removed {
+            replies.removeValue(forKey: prompt.id)?.reply.close()
+        }
+        pendingPrompts.removeAll(where: shouldRemove)
+    }
+
+    /// Takes a session off the list; it comes back if its agent reports on it again
     func archive(_ sessionID: String) {
         publish(sessions.filter { $0.id != sessionID }, now: Date())
     }
 
-    /// Drops sessions whose Claude Code process exited without a SessionEnd (killed, crashed)
+    /// Drops sessions whose agent process exited without a SessionEnd (killed, crashed, or an agent
+    /// such as ZCode that doesn't send one)
     func startPruning() {
         pruneTimer?.invalidate()
         pruneTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
@@ -272,6 +431,9 @@ final class AgentSessionStore: ObservableObject {
             let (left, right) = (Self.urgency(of: lhs), Self.urgency(of: rhs))
             return left != right ? left < right : lhs.updatedAt > rhs.updatedAt
         }
+        // A prompt goes with its session (archived, ended, or its agent gone)
+        let sessionIDs = Set(sessions.map(\.id))
+        removePrompts { !sessionIDs.contains($0.sessionID) }
         refreshLiveSession(now: now)
     }
 
