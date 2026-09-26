@@ -7,9 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31D8F0872E01F10E96AE9741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */; };
+		35C45DEF006A10FE546DCB37 /* ClipboardHubStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BE0131ABE052F320F68046 /* ClipboardHubStoreTests.swift */; };
+		4D52410100000000000000A3 /* MediaRemoteAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A1 /* MediaRemoteAdapter.m */; };
+		4D52410100000000000000A4 /* libMediaRemoteAdapter.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4D52410100000000000000B1 /* ScreenManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000B2 /* ScreenManagerTests.swift */; };
+		4D5241020000000000000004 /* AgentSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000003 /* AgentSessionStore.swift */; };
+		4D5241020000000000000006 /* AgentHookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000005 /* AgentHookEvent.swift */; };
+		4D5241020000000000000008 /* AgentHookInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000007 /* AgentHookInstaller.swift */; };
+		4D524102000000000000000A /* AgentHookServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000009 /* AgentHookServer.swift */; };
+		4D524102000000000000000C /* TerminalFocuser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000B /* TerminalFocuser.swift */; };
+		4D524102000000000000000E /* AgentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000D /* AgentViews.swift */; };
+		4D5241020000000000000010 /* AgentSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000F /* AgentSettingsView.swift */; };
+		4D5241020000000000000016 /* island-claude-hook in Embed Helpers */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000012 /* island-claude-hook */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4D524102000000000000001E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000001D /* main.c */; };
+		4D5241020000000000000031 /* MenuBarSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000030 /* MenuBarSpace.swift */; };
+		4D5241020000000000000033 /* IslandWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000032 /* IslandWindow.swift */; };
+		4D5241030000000000000002 /* AgentSessionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241030000000000000001 /* AgentSessionStoreTests.swift */; };
+		4D5241030000000000000004 /* AgentHookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241030000000000000003 /* AgentHookTests.swift */; };
+		4D5241040000000000000002 /* ClaudeTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000001 /* ClaudeTranscript.swift */; };
+		4D5241040000000000000004 /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000003 /* AgentAlertSound.swift */; };
+		4D5241050000000000000002 /* CodexSessionIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241050000000000000001 /* CodexSessionIndex.swift */; };
+		4D5241060000000000000002 /* HotKeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000001 /* HotKeyManagerTests.swift */; };
+		4D5241060000000000000004 /* LyricsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000003 /* LyricsServiceTests.swift */; };
+		4D5241070000000000000002 /* FullScreenVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000001 /* FullScreenVideo.swift */; };
+		4D5241070000000000000004 /* FullScreenVideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000003 /* FullScreenVideoTests.swift */; };
 		5104FC4E2F1A4B5D003F8273 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5104FC4B2F1A4B5D003F8273 /* StatusBarController.swift */; };
 		5104FC4F2F1A4B5D003F8273 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5104FC492F1A4B5D003F8273 /* OverlayWindowController.swift */; };
-		4D5241020000000000000033 /* IslandWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000032 /* IslandWindow.swift */; };
 		510BABFB2F222146001CA156 /* LyricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510BABFA2F222146001CA156 /* LyricsService.swift */; };
 		511D73212F18D90300163A46 /* ClipboardSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511D73092F18D90300163A46 /* ClipboardSettingsWindow.swift */; };
 		511D73242F18D90300163A46 /* NSItemProvider+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511D72F42F18D90300163A46 /* NSItemProvider+Extensions.swift */; };
@@ -47,8 +71,6 @@
 		511D742E2F18DA0B00163A46 /* PlaybackState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511D74272F18DA0B00163A46 /* PlaybackState.swift */; };
 		511D74312F18DA0B00163A46 /* ShelfItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511D74282F18DA0B00163A46 /* ShelfItem.swift */; };
 		5163623F2F2871320014744B /* DragDetectorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5163623E2F2871320014744B /* DragDetectorManager.swift */; };
-		4D5241020000000000000031 /* MenuBarSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000030 /* MenuBarSpace.swift */; };
-		4D5241070000000000000002 /* FullScreenVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000001 /* FullScreenVideo.swift */; };
 		519CDAFD2F124DD70011DA8A /* IslandInteractionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519CDAFC2F124DD70011DA8A /* IslandInteractionState.swift */; };
 		519FCFBD2F1F683D00E6EE33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49FBE2F0B8F8E002AD746 /* AppDelegate.swift */; };
 		51D024632F16046D00B1FF0F /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D024602F16046D00B1FF0F /* SearchEngine.swift */; };
@@ -75,30 +97,8 @@
 		51F1B11C2F0E4A1400B89019 /* NowPlayingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F1B11B2F0E4A1400B89019 /* NowPlayingManager.swift */; };
 		51F1B11E2F0E4A2500B89019 /* NowPlayingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F1B11D2F0E4A2500B89019 /* NowPlayingState.swift */; };
 		B604001DB9274EEAA702BD55 /* Mac灵动岛App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0ABEFA9F80404A97C74C13 /* Mac灵动岛App.swift */; };
-		D32477692E35F4767B8B70001 /* FileVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53D77E3580A4ABAD740001 /* FileVaultStore.swift */; };
-		31D8F0872E01F10E96AE9741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */; };
-		35C45DEF006A10FE546DCB37 /* ClipboardHubStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BE0131ABE052F320F68046 /* ClipboardHubStoreTests.swift */; };
+		D32477692E35F4767B8B70001 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		F47AB87F21601EACC7D73B1D /* OverlayWindowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0247955385A9AC7057FE0B3B /* OverlayWindowTests.swift */; };
-		4D52410100000000000000B1 /* ScreenManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000B2 /* ScreenManagerTests.swift */; };
-		4D5241060000000000000002 /* HotKeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000001 /* HotKeyManagerTests.swift */; };
-		4D5241060000000000000004 /* LyricsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000003 /* LyricsServiceTests.swift */; };
-		4D5241070000000000000004 /* FullScreenVideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000003 /* FullScreenVideoTests.swift */; };
-		4D52410100000000000000A3 /* MediaRemoteAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A1 /* MediaRemoteAdapter.m */; };
-		4D52410100000000000000A4 /* libMediaRemoteAdapter.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4D5241020000000000000004 /* AgentSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000003 /* AgentSessionStore.swift */; };
-		4D5241020000000000000006 /* AgentHookEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000005 /* AgentHookEvent.swift */; };
-		4D5241020000000000000008 /* AgentHookInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000007 /* AgentHookInstaller.swift */; };
-		4D524102000000000000000A /* AgentHookServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000009 /* AgentHookServer.swift */; };
-		4D524102000000000000000C /* TerminalFocuser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000B /* TerminalFocuser.swift */; };
-		4D524102000000000000000E /* AgentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000D /* AgentViews.swift */; };
-		4D5241020000000000000010 /* AgentSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000000F /* AgentSettingsView.swift */; };
-		4D524102000000000000001E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D524102000000000000001D /* main.c */; };
-		4D5241020000000000000016 /* island-claude-hook in Embed Helpers */ = {isa = PBXBuildFile; fileRef = 4D5241020000000000000012 /* island-claude-hook */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4D5241030000000000000002 /* AgentSessionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241030000000000000001 /* AgentSessionStoreTests.swift */; };
-		4D5241030000000000000004 /* AgentHookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241030000000000000003 /* AgentHookTests.swift */; };
-		4D5241040000000000000002 /* ClaudeTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000001 /* ClaudeTranscript.swift */; };
-		4D5241050000000000000002 /* CodexSessionIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241050000000000000001 /* CodexSessionIndex.swift */; };
-		4D5241040000000000000004 /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000003 /* AgentAlertSound.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,8 +151,33 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5104FC492F1A4B5D003F8273 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
+		0247955385A9AC7057FE0B3B /* OverlayWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowTests.swift; sourceTree = "<group>"; };
+		12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		16699883D1FCA93359C8C3D6 /* Mac灵动岛Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mac灵动岛Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D52410100000000000000A1 /* MediaRemoteAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaRemoteAdapter.m; sourceTree = "<group>"; };
+		4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMediaRemoteAdapter.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D52410100000000000000B2 /* ScreenManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenManagerTests.swift; sourceTree = "<group>"; };
+		4D5241020000000000000003 /* AgentSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSessionStore.swift; sourceTree = "<group>"; };
+		4D5241020000000000000005 /* AgentHookEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookEvent.swift; sourceTree = "<group>"; };
+		4D5241020000000000000007 /* AgentHookInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookInstaller.swift; sourceTree = "<group>"; };
+		4D5241020000000000000009 /* AgentHookServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookServer.swift; sourceTree = "<group>"; };
+		4D524102000000000000000B /* TerminalFocuser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalFocuser.swift; sourceTree = "<group>"; };
+		4D524102000000000000000D /* AgentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentViews.swift; sourceTree = "<group>"; };
+		4D524102000000000000000F /* AgentSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSettingsView.swift; sourceTree = "<group>"; };
+		4D5241020000000000000012 /* island-claude-hook */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "island-claude-hook"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D524102000000000000001D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		4D5241020000000000000030 /* MenuBarSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarSpace.swift; sourceTree = "<group>"; };
 		4D5241020000000000000032 /* IslandWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandWindow.swift; sourceTree = "<group>"; };
+		4D5241030000000000000001 /* AgentSessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSessionStoreTests.swift; sourceTree = "<group>"; };
+		4D5241030000000000000003 /* AgentHookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookTests.swift; sourceTree = "<group>"; };
+		4D5241040000000000000001 /* ClaudeTranscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeTranscript.swift; sourceTree = "<group>"; };
+		4D5241040000000000000003 /* AgentAlertSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertSound.swift; sourceTree = "<group>"; };
+		4D5241050000000000000001 /* CodexSessionIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexSessionIndex.swift; sourceTree = "<group>"; };
+		4D5241060000000000000001 /* HotKeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManagerTests.swift; sourceTree = "<group>"; };
+		4D5241060000000000000003 /* LyricsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsServiceTests.swift; sourceTree = "<group>"; };
+		4D5241070000000000000001 /* FullScreenVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideo.swift; sourceTree = "<group>"; };
+		4D5241070000000000000003 /* FullScreenVideoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideoTests.swift; sourceTree = "<group>"; };
+		5104FC492F1A4B5D003F8273 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
 		5104FC4B2F1A4B5D003F8273 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
 		510BABFA2F222146001CA156 /* LyricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsService.swift; sourceTree = "<group>"; };
 		511D72E82F18D90300163A46 /* BuildConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildConfig.swift; sourceTree = "<group>"; };
@@ -191,8 +216,6 @@
 		511D74282F18DA0B00163A46 /* ShelfItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfItem.swift; sourceTree = "<group>"; };
 		511D74292F18DA0B00163A46 /* ShelfItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShelfItem+Extensions.swift"; sourceTree = "<group>"; };
 		5163623E2F2871320014744B /* DragDetectorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDetectorManager.swift; sourceTree = "<group>"; };
-		4D5241020000000000000030 /* MenuBarSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarSpace.swift; sourceTree = "<group>"; };
-		4D5241070000000000000001 /* FullScreenVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideo.swift; sourceTree = "<group>"; };
 		519CDAFC2F124DD70011DA8A /* IslandInteractionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandInteractionState.swift; sourceTree = "<group>"; };
 		51D0245A2F16046D00B1FF0F /* ClipboardHubStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHubStore.swift; sourceTree = "<group>"; };
 		51D024602F16046D00B1FF0F /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
@@ -220,48 +243,11 @@
 		51F1B1192F0E49FF00B89019 /* OverlayVisibilityReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayVisibilityReason.swift; sourceTree = "<group>"; };
 		51F1B11B2F0E4A1400B89019 /* NowPlayingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingManager.swift; sourceTree = "<group>"; };
 		51F1B11D2F0E4A2500B89019 /* NowPlayingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingState.swift; sourceTree = "<group>"; };
-		CD0ABEFA9F80404A97C74C13 /* Mac灵动岛App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mac灵动岛App.swift"; sourceTree = "<group>"; };
-		12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		16699883D1FCA93359C8C3D6 /* Mac灵动岛Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mac灵动岛Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7BE0131ABE052F320F68046 /* ClipboardHubStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHubStoreTests.swift; sourceTree = "<group>"; };
-		0247955385A9AC7057FE0B3B /* OverlayWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowTests.swift; sourceTree = "<group>"; };
-		4D52410100000000000000A1 /* MediaRemoteAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaRemoteAdapter.m; sourceTree = "<group>"; };
-		4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMediaRemoteAdapter.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D52410100000000000000B2 /* ScreenManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenManagerTests.swift; sourceTree = "<group>"; };
-		4D5241060000000000000001 /* HotKeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManagerTests.swift; sourceTree = "<group>"; };
-		4D5241060000000000000003 /* LyricsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsServiceTests.swift; sourceTree = "<group>"; };
-		4D5241070000000000000003 /* FullScreenVideoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideoTests.swift; sourceTree = "<group>"; };
-		4D5241020000000000000003 /* AgentSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSessionStore.swift; sourceTree = "<group>"; };
-		4D5241020000000000000005 /* AgentHookEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookEvent.swift; sourceTree = "<group>"; };
-		4D5241020000000000000007 /* AgentHookInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookInstaller.swift; sourceTree = "<group>"; };
-		4D5241020000000000000009 /* AgentHookServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookServer.swift; sourceTree = "<group>"; };
-		4D524102000000000000000B /* TerminalFocuser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalFocuser.swift; sourceTree = "<group>"; };
-		4D524102000000000000000D /* AgentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentViews.swift; sourceTree = "<group>"; };
-		4D524102000000000000000F /* AgentSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSettingsView.swift; sourceTree = "<group>"; };
-		4D5241020000000000000012 /* island-claude-hook */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "island-claude-hook"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D524102000000000000001D /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		4D5241030000000000000001 /* AgentSessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentSessionStoreTests.swift; sourceTree = "<group>"; };
-		4D5241030000000000000003 /* AgentHookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentHookTests.swift; sourceTree = "<group>"; };
-		4D5241040000000000000001 /* ClaudeTranscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeTranscript.swift; sourceTree = "<group>"; };
-		4D5241050000000000000001 /* CodexSessionIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexSessionIndex.swift; sourceTree = "<group>"; };
-		4D5241040000000000000003 /* AgentAlertSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertSound.swift; sourceTree = "<group>"; };
+		CD0ABEFA9F80404A97C74C13 /* Mac灵动岛App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mac灵动岛App.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		51E49FA82F0B8D41002AD746 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9D559604FAB6932EE5648ED8 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4D52410100000000000000A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,9 +262,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		51E49FA82F0B8D41002AD746 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D559604FAB6932EE5648ED8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D52410100000000000000A5 /* MediaRemoteAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				4D52410100000000000000A1 /* MediaRemoteAdapter.m */,
+			);
+			path = MediaRemoteAdapter;
+			sourceTree = "<group>";
+		};
+		4D5241020000000000000001 /* Agents */ = {
+			isa = PBXGroup;
+			children = (
+				4D5241040000000000000003 /* AgentAlertSound.swift */,
+				4D5241040000000000000001 /* ClaudeTranscript.swift */,
+				4D5241050000000000000001 /* CodexSessionIndex.swift */,
+				4D524102000000000000000B /* TerminalFocuser.swift */,
+				4D5241020000000000000009 /* AgentHookServer.swift */,
+				4D5241020000000000000007 /* AgentHookInstaller.swift */,
+				4D5241020000000000000005 /* AgentHookEvent.swift */,
+				4D5241020000000000000003 /* AgentSessionStore.swift */,
+			);
+			path = Agents;
+			sourceTree = "<group>";
+		};
+		4D5241020000000000000002 /* Agents */ = {
+			isa = PBXGroup;
+			children = (
+				4D524102000000000000000D /* AgentViews.swift */,
+			);
+			path = Agents;
+			sourceTree = "<group>";
+		};
+		4D5241020000000000000011 /* ClaudeHookBridge */ = {
+			isa = PBXGroup;
+			children = (
+				4D524102000000000000001D /* main.c */,
+			);
+			path = ClaudeHookBridge;
+			sourceTree = "<group>";
+		};
 		5104FC4C2F1A4B5D003F8273 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,69 +602,9 @@
 			path = "Mac灵动岛Tests";
 			sourceTree = "<group>";
 		};
-		4D52410100000000000000A5 /* MediaRemoteAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				4D52410100000000000000A1 /* MediaRemoteAdapter.m */,
-			);
-			path = MediaRemoteAdapter;
-			sourceTree = "<group>";
-		};
-		4D5241020000000000000001 /* Agents */ = {
-			isa = PBXGroup;
-			children = (
-				4D5241040000000000000003 /* AgentAlertSound.swift */,
-				4D5241040000000000000001 /* ClaudeTranscript.swift */,
-				4D5241050000000000000001 /* CodexSessionIndex.swift */,
-				4D524102000000000000000B /* TerminalFocuser.swift */,
-				4D5241020000000000000009 /* AgentHookServer.swift */,
-				4D5241020000000000000007 /* AgentHookInstaller.swift */,
-				4D5241020000000000000005 /* AgentHookEvent.swift */,
-				4D5241020000000000000003 /* AgentSessionStore.swift */,
-			);
-			path = Agents;
-			sourceTree = "<group>";
-		};
-		4D5241020000000000000002 /* Agents */ = {
-			isa = PBXGroup;
-			children = (
-				4D524102000000000000000D /* AgentViews.swift */,
-			);
-			path = Agents;
-			sourceTree = "<group>";
-		};
-		4D5241020000000000000011 /* ClaudeHookBridge */ = {
-			isa = PBXGroup;
-			children = (
-				4D524102000000000000001D /* main.c */,
-			);
-			path = ClaudeHookBridge;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		51E49FAA2F0B8D41002AD746 /* Mac灵动岛 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 51E49FB62F0B8D44002AD746 /* Build configuration list for PBXNativeTarget "Mac灵动岛" */;
-			buildPhases = (
-				51E49FA72F0B8D41002AD746 /* Sources */,
-				51E49FA82F0B8D41002AD746 /* Frameworks */,
-				51E49FA92F0B8D41002AD746 /* Resources */,
-				4D52410100000000000000A9 /* Embed Libraries */,
-				4D5241020000000000000017 /* Embed Helpers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4D52410100000000000000AB /* PBXTargetDependency */,
-				4D5241020000000000000019 /* PBXTargetDependency */,
-			);
-			name = "Mac灵动岛";
-			productName = "Mac灵动岛";
-			productReference = 51E49FAB2F0B8D41002AD746 /* Mac灵动岛.app */;
-			productType = "com.apple.product-type.application";
-		};
 		2013CF6D78CAA4315DA29D50 /* Mac灵动岛Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 267CAFEC18DF207FD29D72F0 /* Build configuration list for PBXNativeTarget "Mac灵动岛Tests" */;
@@ -676,6 +655,27 @@
 			productReference = 4D5241020000000000000012 /* island-claude-hook */;
 			productType = "com.apple.product-type.tool";
 		};
+		51E49FAA2F0B8D41002AD746 /* Mac灵动岛 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 51E49FB62F0B8D44002AD746 /* Build configuration list for PBXNativeTarget "Mac灵动岛" */;
+			buildPhases = (
+				51E49FA72F0B8D41002AD746 /* Sources */,
+				51E49FA82F0B8D41002AD746 /* Frameworks */,
+				51E49FA92F0B8D41002AD746 /* Resources */,
+				4D52410100000000000000A9 /* Embed Libraries */,
+				4D5241020000000000000017 /* Embed Helpers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4D52410100000000000000AB /* PBXTargetDependency */,
+				4D5241020000000000000019 /* PBXTargetDependency */,
+			);
+			name = "Mac灵动岛";
+			productName = "Mac灵动岛";
+			productReference = 51E49FAB2F0B8D41002AD746 /* Mac灵动岛.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -690,14 +690,14 @@
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 51E49FAA2F0B8D41002AD746;
 					};
-					51E49FAA2F0B8D41002AD746 = {
-						CreatedOnToolsVersion = 26.0.1;
-					};
 					4D52410100000000000000A6 = {
 						CreatedOnToolsVersion = 27.0;
 					};
 					4D5241020000000000000015 = {
 						CreatedOnToolsVersion = 27.0;
+					};
+					51E49FAA2F0B8D41002AD746 = {
+						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
 			};
@@ -727,6 +727,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		07767327C1495053AC163223 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		51E49FA92F0B8D41002AD746 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -736,16 +743,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		07767327C1495053AC163223 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4D52410100000000000000A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D52410100000000000000A3 /* MediaRemoteAdapter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D5241020000000000000013 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D524102000000000000001E /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		51E49FA72F0B8D41002AD746 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -825,7 +841,7 @@
 				519CDAFD2F124DD70011DA8A /* IslandInteractionState.swift in Sources */,
 				51E49FD02F0B93E3002AD746 /* ClipboardManager.swift in Sources */,
 				510BABFB2F222146001CA156 /* LyricsService.swift in Sources */,
-				D32477692E35F4767B8B70001 /* FileVaultStore.swift in Sources */,
+				D32477692E35F4767B8B70001 /* (null) in Sources */,
 				51D024742F16049400B1FF0F /* ClipboardCardView.swift in Sources */,
 				51D024752F16049400B1FF0F /* ClipboardHubView.swift in Sources */,
 			);
@@ -843,22 +859,6 @@
 				4D5241060000000000000002 /* HotKeyManagerTests.swift in Sources */,
 				4D5241060000000000000004 /* LyricsServiceTests.swift in Sources */,
 				4D5241070000000000000004 /* FullScreenVideoTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4D52410100000000000000A7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4D52410100000000000000A3 /* MediaRemoteAdapter.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4D5241020000000000000013 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4D524102000000000000001E /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,194 +895,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		51E49FB42F0B8D44002AD746 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		51E49FB52F0B8D44002AD746 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-			};
-			name = Release;
-		};
-		51E49FB72F0B8D44002AD746 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Mac灵动岛/Mac灵动岛.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 66233X8P8H;
-				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Mac灵动岛/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = NO;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		51E49FB82F0B8D44002AD746 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Mac灵动岛/Mac灵动岛.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Distribution";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 66233X8P8H;
-				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Mac灵动岛/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = NO;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		20DB8833730467E63D22FA03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1091,7 +903,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66233X8P8H;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1109,7 +921,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66233X8P8H;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1171,27 +983,199 @@
 			};
 			name = Release;
 		};
+		51E49FB42F0B8D44002AD746 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		51E49FB52F0B8D44002AD746 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		51E49FB72F0B8D44002AD746 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Mac灵动岛/Mac灵动岛.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 66233X8P8H;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Mac灵动岛/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		51E49FB82F0B8D44002AD746 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Mac灵动岛/Mac灵动岛.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 66233X8P8H;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Mac灵动岛/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macdynamicisland.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		51E49FA62F0B8D41002AD746 /* Build configuration list for PBXProject "Mac灵动岛" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				51E49FB42F0B8D44002AD746 /* Debug */,
-				51E49FB52F0B8D44002AD746 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		51E49FB62F0B8D44002AD746 /* Build configuration list for PBXNativeTarget "Mac灵动岛" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				51E49FB72F0B8D44002AD746 /* Debug */,
-				51E49FB82F0B8D44002AD746 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		267CAFEC18DF207FD29D72F0 /* Build configuration list for PBXNativeTarget "Mac灵动岛Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1215,6 +1199,24 @@
 			buildConfigurations = (
 				4D524102000000000000001B /* Debug */,
 				4D524102000000000000001C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		51E49FA62F0B8D41002AD746 /* Build configuration list for PBXProject "Mac灵动岛" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				51E49FB42F0B8D44002AD746 /* Debug */,
+				51E49FB52F0B8D44002AD746 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		51E49FB62F0B8D44002AD746 /* Build configuration list for PBXNativeTarget "Mac灵动岛" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				51E49FB72F0B8D44002AD746 /* Debug */,
+				51E49FB82F0B8D44002AD746 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
