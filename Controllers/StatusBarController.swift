@@ -84,13 +84,13 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.autoenablesItems = false
         
         // Show Overlay
-        let showItem = NSMenuItem(title: "显示灵动岛", action: #selector(onShow), keyEquivalent: "s")
+        let showItem = NSMenuItem(title: "显示灵动岛", action: #selector(onShow), keyEquivalent: "")
         showItem.target = self
         showItem.isEnabled = true
         menu.addItem(showItem)
         
         // Hide Overlay
-        let hideItem = NSMenuItem(title: "隐藏灵动岛", action: #selector(onHide), keyEquivalent: "h")
+        let hideItem = NSMenuItem(title: "隐藏灵动岛", action: #selector(onHide), keyEquivalent: "")
         hideItem.target = self
         hideItem.isEnabled = true
         menu.addItem(hideItem)
@@ -108,7 +108,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         // Debug
         let debugMenu = NSMenu(title: "调试与开发")
         
-        let centerItem = NSMenuItem(title: "居中显示 (重置位置)", action: #selector(onCenterDebugOverlay), keyEquivalent: "d")
+        let centerItem = NSMenuItem(title: "居中显示 (重置位置)", action: #selector(onCenterDebugOverlay), keyEquivalent: "")
         centerItem.target = self
         debugMenu.addItem(centerItem)
         
