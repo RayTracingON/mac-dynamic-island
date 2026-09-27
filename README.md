@@ -8,6 +8,7 @@ A macOS menu bar app that turns the area around the MacBook notch into an intera
 - **Coding agents** (Claude Code, Codex, ZCode): while a session works, waits for your permission or has just finished, the collapsed island shows its status and progress (tasks done, or elapsed time) beside the notch. The Agents tab lists every session with its agent, what it's doing, its task progress and a button that brings its Terminal or iTerm2 tab (or the agent's app) to the front. When Claude asks you a question (AskUserQuestion) or asks to use a tool, the island opens on it. You can answer, allow, always allow or deny right there, or still answer in the terminal. Connect each agent in Settings → Agents; see "How agents are connected" below.
 - **Clipboard**: text, links, code and images you copy are kept (50 items for 24 hours by default), can be searched and filtered, and can be pasted back into the frontmost app.
 - **Files shelf**: drag files onto the notch to park them. The shelf keeps security-scoped bookmarks and shows thumbnails and Quick Look previews.
+- **Opens on what's going on**: pointing at the island or clicking it opens the Agents tab while an agent session works, waits for you or has just finished, or else the Music tab while music plays, rather than the tab you used last. When neither is going on, it reopens the tab you used last.
 - **Menu bar item** to show or hide the island, open Settings and quit.
 
 ## Requirements
