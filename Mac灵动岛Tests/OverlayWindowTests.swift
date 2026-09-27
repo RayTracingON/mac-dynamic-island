@@ -228,6 +228,38 @@ final class OverlayWindowTests: XCTestCase {
         runMainLoop(for: 0.2)
     }
 
+    func testPointingAtTheIslandOpensWhatsGoingOn() {
+        let state = OverlayWindowController.shared.getAppState()
+        let music = MusicManager.shared
+        let settings = SettingsDefaults.shared
+        // The tests run inside the app, on its real settings
+        let showsMusic = settings.get(SettingsDefaults.showMusicLiveActivity)
+        let showsAgents = settings.get(SettingsDefaults.showAgentLiveActivity)
+        defer {
+            settings.set(SettingsDefaults.showMusicLiveActivity, value: showsMusic)
+            settings.set(SettingsDefaults.showAgentLiveActivity, value: showsAgents)
+            AgentSessionStore.shared.archive("live-tab")
+            music.isPlaying = false
+            music.songTitle = ""
+            runMainLoop(for: 0.2)
+        }
+        settings.set(SettingsDefaults.showMusicLiveActivity, value: true)
+        settings.set(SettingsDefaults.showAgentLiveActivity, value: true)
+
+        music.songTitle = "Test Song"
+        music.isPlaying = false
+        XCTAssertNil(state.liveActivitySection, "paused music isn't going on: the tab you used last opens")
+
+        music.isPlaying = true
+        XCTAssertEqual(state.liveActivitySection, .music, "music playing opens the Music tab, whichever you used last")
+
+        AgentSessionStore.shared.apply(AgentHookEvent(kind: .userPromptSubmit, sessionID: "live-tab"))
+        XCTAssertEqual(state.liveActivitySection, .agents, "an agent at work takes the notch from music, and so the tab")
+
+        settings.set(SettingsDefaults.showAgentLiveActivity, value: false)
+        XCTAssertEqual(state.liveActivitySection, .music, "unless it doesn't show beside the notch")
+    }
+
     func testEachTabOpensToItsOwnSize() throws {
         let state = OverlayWindowController.shared.getAppState()
         let panel = try islandPanel()

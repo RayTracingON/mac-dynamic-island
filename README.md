@@ -8,6 +8,7 @@ A macOS menu bar app that turns the area around the MacBook notch into an intera
 - **Coding agents** (Claude Code, Codex, ZCode): while a session works, waits for your permission or has just finished, the collapsed island shows its status and progress (tasks done, or elapsed time) beside the notch. The Agents tab lists every session with its agent, what it's doing, its task progress and a button that brings its Terminal or iTerm2 tab (or the agent's app) to the front. When Claude asks you a question (AskUserQuestion) or asks to use a tool, the island opens on it. You can answer, allow, always allow or deny right there, or still answer in the terminal. Connect each agent in Settings → Agents; see "How agents are connected" below.
 - **Clipboard**: text, links, code and images you copy are kept (50 items for 24 hours by default), can be searched and filtered, and can be pasted back into the frontmost app.
 - **Files shelf**: drag files onto the notch to park them. The shelf keeps security-scoped bookmarks and shows thumbnails and Quick Look previews.
+- **Opens on what's going on**: pointing at the island or clicking it opens the Agents tab while an agent session works, waits for you or has just finished, or else the Music tab while music plays, rather than the tab you used last. When neither is going on, it reopens the tab you used last.
 - **Menu bar item** to show or hide the island, open Settings and quit.
 
 ## Requirements
@@ -38,22 +39,14 @@ xcodebuild -project Mac灵动岛.xcodeproj -scheme Mac灵动岛 -destination 'pl
 
 `build_test.sh` runs a clean Debug build and reports the warning count.
 
-The unit tests in `Mac灵动岛Tests` are hosted by the app. When it runs as a test host, the app skips its launch setup (hotkeys, clipboard polling and the menu bar item).
+The unit tests in `Mac灵动岛Tests` are hosted by the app. When it runs as a test host, the app skips its launch setup (clipboard polling and the menu bar item).
 
 ## Permissions
 
 | Permission | Used for |
 |---|---|
-| Accessibility | Global keyboard shortcuts, and telling a video in full screen on the built-in display from a window that's merely as large. Settings → General has a button to request it. |
+| Accessibility | Telling a video in full screen on the built-in display from a window that's merely as large. Settings → General has a button to request it. |
 | Automation (Apple Events) | Reading lyrics from Music, pasting clipboard items through System Events, and selecting an agent session's tab in Terminal or iTerm2. |
-
-## Keyboard shortcuts
-
-| Shortcut | Action |
-|---|---|
-| ⇧⌘Space | Expand or collapse the island |
-| ⌥⌘Space | Show or hide the island |
-| ⌥⌘V | Open the island on the clipboard tab |
 
 ## Distribution
 
@@ -71,7 +64,7 @@ Views/Settings/       Settings tabs
 Settings/             Settings window controller and the clipboard settings tab
 Music/                MusicManager: playback state, controls, artwork and lyrics
 Services/             Now playing (MediaRemote via the adapter), lyrics, clipboard store, shelf persistence, thumbnails, Quick Look
-Managers/             Clipboard polling, global hotkeys, drag detection, screens, analytics
+Managers/             Clipboard polling, drag detection, screens, analytics
 Models/, ViewModels/  Now playing and shelf models and the shelf view model
 Utilities/            Settings store (Defaults+Keys.swift), AppleScript, localization, logging and other helpers
 Extensions/           Small AppKit and SwiftUI extensions
@@ -91,7 +84,7 @@ Mac灵动岛App (@main)
    ├─ OverlayWindowController.shared   borderless panel at the notch hosting NotchHomeView
    │  ├─ AppState                       loads clipboard history, starts global drag detection
    │  └─ NowPlayingManager → MusicManager
-   ├─ AppIntegration.start()            ClipboardManager, HotKeyManager
+   ├─ AppIntegration.start()            ClipboardManager, the agent hook server
    └─ StatusBarController               menu bar item
 ```
 

@@ -114,10 +114,11 @@ struct NotchHomeView: View {
         .animation(reduceMotion ? nil : animationSpring, value: appState.liveActivityWings)
     }
 
-    /// Opens the island; when an agent session is showing beside the notch, on the Agents tab
+    /// Opens the island; while something is going on (an agent at work, music playing), on its tab
+    /// rather than the one you used last
     private func openIsland() {
-        if appState.showsLiveActivity && AgentSessionStore.shared.showsCompactLiveActivity {
-            appState.currentSection = .agents
+        if let section = appState.liveActivitySection {
+            appState.currentSection = section
         }
         withAnimation(openAnimation) {
             appState.activateOverlay(reason: .userExpanded)
@@ -636,8 +637,8 @@ enum NotchMetrics {
         let contentHeight: CGFloat
         switch section {
         case .music:
-            // Artwork beside title, lyrics, progress and controls
-            contentHeight = 190
+            // Artwork beside title, lyrics and progress, with the controls centered below
+            contentHeight = ExpandedMusicView.height
         case .clipboard:
             // One row of 160pt cards
             contentHeight = 210

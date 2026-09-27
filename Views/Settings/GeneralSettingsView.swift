@@ -81,7 +81,7 @@ struct GeneralSettingsView: View {
                         Text("未连接的显示器").tag(chosenDisplay)
                     }
                 }
-                .help("默认显示器是带刘海的内建屏幕；选的屏幕没接上时也回到它。打开“所有屏幕”时，快捷键和剪贴板打开这块屏幕上的岛")
+                .help("默认显示器是带刘海的内建屏幕；选的屏幕没接上时也回到它")
                 // 跟随鼠标时岛不固定在哪块屏幕
                 .disabled(SettingsDefaults.shared.get(SettingsDefaults.automaticallySwitchDisplay)
                           && !SettingsDefaults.shared.get(SettingsDefaults.showOnAllDisplays))

@@ -10,14 +10,25 @@ struct ExpandedMusicView: View {
     @State private var seekTime: Double = 0
     @State private var lastSongTitle: String = ""
 
+    /// Side of the artwork, as tall as the text beside it: from the top of the title down to the progress bar,
+    /// with room for two lines of lyrics in between
+    private static let artSize: CGFloat = 92
+    /// The play button, the tallest of the controls
+    private static let playButtonSize: CGFloat = 34
+    private static let controlsSpacing: CGFloat = 8
+    private static let topPadding: CGFloat = 12
+    private static let bottomPadding: CGFloat = 12
+    /// Height of the whole module, which NotchMetrics gives the Music tab
+    static let height = topPadding + artSize + controlsSpacing + playButtonSize + bottomPadding
+
     var body: some View {
-        ZStack {
-            HStack(alignment: .center, spacing: 18) {
-                // 💿 ALBUM ART
+        VStack(spacing: Self.controlsSpacing) {
+            HStack(alignment: .top, spacing: 16) {
+                // 💿 ALBUM ART, level with the title
                 albumArtView
                 
-                // 📝 TRACK INFO & LYRICS & CONTROLS
-                VStack(alignment: .leading, spacing: 8) {
+                // 📝 TRACK INFO & LYRICS & PROGRESS
+                VStack(alignment: .leading, spacing: 0) {
                     // Title & Artist
                     VStack(alignment: .leading, spacing: 2) {
                         Text(musicManager.songTitle.isEmpty ? "Not Playing" : musicManager.songTitle)
@@ -31,26 +42,27 @@ struct ExpandedMusicView: View {
                             .lineLimit(1)
                     }
                     
-                    // 🎤 LYRICS VIEW (New)
+                    // 🎤 LYRICS: up to two lines between the artist and the progress bar
                     if !musicManager.currentLyrics.isEmpty {
                         LyricsView(musicManager: musicManager)
-                            .frame(height: 36)
-                    } else {
-                        Spacer().frame(height: 8)
+                            .padding(.top, 4)
                     }
                     
-                    // ⏱ PROGRESS STRIP
+                    Spacer(minLength: 4)
+
+                    // ⏱ PROGRESS STRIP, level with the bottom of the artwork
                     progressStrip
-                    
-                    // 🎮 MEDIA CONTROLS
-                    mediaControls
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(height: Self.artSize)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
+
+            // 🎮 MEDIA CONTROLS, centered in the module rather than under the text
+            mediaControls
         }
-        .background(Color.clear)
+        .padding(.horizontal, 20)
+        .padding(.top, Self.topPadding)
+        .padding(.bottom, Self.bottomPadding)
         .onChange(of: musicManager.songTitle) { oldTitle, newTitle in
             // ✅ 歌曲切换时重置拖拽状态
             if newTitle != oldTitle && !oldTitle.isEmpty {
@@ -67,17 +79,28 @@ struct ExpandedMusicView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .matchedGeometryEffect(id: "album_art", in: animation)
-                .frame(width: 100, height: 100)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .frame(width: Self.artSize, height: Self.artSize)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
     }
     
     private var progressStrip: some View {
-        VStack(spacing: 4) {
+        let duration = max(0, musicManager.songDuration)
+        let displayTime = isSeeking ? seekTime : musicManager.currentDisplayTime
+        let durationText = duration > 0 ? formatTime(duration) : "--:--"
+
+        // The times either side of the bar rather than on a row of their own
+        return HStack(spacing: 8) {
+            // As wide as the duration, so the bar keeps its length while the time counts up
+            Text(durationText)
+                .hidden()
+                .overlay(alignment: .leading) {
+                    Text(formatTime(displayTime))
+                        .fixedSize()
+                }
+
             GeometryReader { geo in
-                let duration = max(0, musicManager.songDuration)
-                let displayTime = isSeeking ? seekTime : musicManager.currentDisplayTime
                 let progress = duration > 0 ? min(1.0, max(0.0, displayTime / duration)) : 0
                 let barHeight: CGFloat = 4
 
@@ -92,6 +115,8 @@ struct ExpandedMusicView: View {
                             .frame(width: max(0, geo.size.width * progress), height: barHeight)
                     }
                 }
+                // The bar runs through the middle of a taller strip, which is easier to grab
+                .frame(width: geo.size.width, height: geo.size.height)
                 .contentShape(Rectangle())
                 .gesture(
                     duration > 0
@@ -117,36 +142,32 @@ struct ExpandedMusicView: View {
             }
             .frame(height: 12)
 
-            HStack {
-                Text(formatTime(isSeeking ? seekTime : musicManager.currentDisplayTime))
-                Spacer()
-                Text(musicManager.songDuration > 0 ? formatTime(musicManager.songDuration) : "--:--")
-            }
-            .font(.system(size: 9, design: .monospaced))
-            .foregroundColor(.white.opacity(0.4))
+            Text(durationText)
         }
+        .font(.system(size: 9, design: .monospaced))
+        .foregroundColor(.white.opacity(0.4))
     }
     
     private var mediaControls: some View {
         HStack(spacing: 20) {
-            Spacer()
             controlButton(icon: "backward.fill") { musicManager.previousTrack() }
             
             Button(action: { musicManager.togglePlay() }) {
                 Circle()
                     .fill(Color.white.opacity(0.2))
-                    .frame(width: 38, height: 38)
+                    .frame(width: Self.playButtonSize, height: Self.playButtonSize)
                     .overlay(
                         Image(systemName: musicManager.isPlaying ? "pause.fill" : "play.fill")
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.system(size: 15, weight: .bold))
                             .foregroundColor(.white)
                     )
             }
             .buttonStyle(.plain)
             
             controlButton(icon: "forward.fill") { musicManager.nextTrack() }
-            Spacer()
         }
+        // Centered in the whole module: previous and next are as wide, so the play button sits in the middle
+        .frame(maxWidth: .infinity)
     }
     
     private func controlButton(icon: String, action: @escaping () -> Void) -> some View {
@@ -192,31 +213,28 @@ struct ExpandedMusicView: View {
 struct LyricsView: View {
     @ObservedObject var musicManager: MusicManager
     
+    // Only as tall as its one or two lines, so it sits right below the artist
     var body: some View {
-        GeometryReader { geo in
-            VStack {
-                if !musicManager.syncedLyrics.isEmpty {
-                    // Synced Lyrics
-                    let currentLine = musicManager.lyricLine(at: musicManager.currentDisplayTime)
-                    Text(currentLine.isEmpty ? "..." : currentLine)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.white)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                        .frame(width: geo.size.width, alignment: .leading)
-                        .transition(.opacity)
-                        .id("synced_\(currentLine)")
-                } else {
-                    // Static Lyrics (Scrollable automatically via Marquee logic or just partial text)
-                    Text(cleanLyrics(musicManager.currentLyrics))
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(.white.opacity(0.8))
-                        .lineLimit(2)
-                        .lineSpacing(4)
-                        .multilineTextAlignment(.leading)
-                        .frame(width: geo.size.width, alignment: .topLeading)
-                }
-            }
+        if !musicManager.syncedLyrics.isEmpty {
+            // Synced Lyrics
+            let currentLine = musicManager.lyricLine(at: musicManager.currentDisplayTime)
+            Text(currentLine.isEmpty ? "..." : currentLine)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(.white)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .transition(.opacity)
+                .id("synced_\(currentLine)")
+        } else {
+            // Static Lyrics: the first two lines
+            Text(cleanLyrics(musicManager.currentLyrics))
+                .font(.system(size: 13, weight: .regular))
+                .foregroundColor(.white.opacity(0.8))
+                .lineLimit(2)
+                .lineSpacing(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
     

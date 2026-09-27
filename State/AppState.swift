@@ -47,6 +47,15 @@ final class AppState: ObservableObject {
     var showsLiveActivity: Bool { !liveActivityWings.isEmpty }
     /// The pointer is on the collapsed island: paused music shows beside the notch while it stays there
     @Published var isPeekingNotch: Bool = false
+    /// The tab of what's going on, which the island opens on when you point at it or click it instead of the tab
+    /// you used last: an agent session working, waiting for you or just finished, else music playing
+    /// (the order they take the notch in). Nil while neither is
+    var liveActivitySection: IslandSection? {
+        if AgentSessionStore.shared.showsCompactLiveActivity { return .agents }
+        // Paused music peeks out beside the notch too, but it isn't going on: the tab you used last opens
+        let music = MusicManager.shared
+        return music.showsCompactLiveActivity && music.isPlaying ? .music : nil
+    }
     /// Current frame of the island panel, in screen coordinates
     private(set) var islandFrame: CGRect = .zero
     /// The panel showing this island; IslandWindow sets it

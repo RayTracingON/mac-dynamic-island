@@ -22,7 +22,6 @@
 "settings.tab.battery" = "电池";
 "settings.tab.clipboard" = "剪贴板";
 "settings.tab.shelf" = "架子";
-"settings.tab.shortcuts" = "快捷键";
 "settings.tab.advanced" = "高级";
 "settings.tab.about" = "关于";
 
@@ -159,18 +158,18 @@
 
 /* ===== 辅助功能权限 ===== */
 "accessibility_required_title" = "需要辅助功能权限";
-"accessibility_required_message" = "Mac灵动岛需要辅助功能权限才能启用全局快捷键（⌘⇧Space 切换灵动岛，⌘⌥V 打开剪贴板）和跨应用拖放功能。\n\n请在系统设置 > 隐私与安全性 > 辅助功能 中开启。";
+"accessibility_required_message" = "Mac灵动岛需要辅助功能权限，才能在内建屏幕上分辨视频是在全屏播放还是窗口恰好一样大，从而在你全屏看视频时隐藏灵动岛。\n\n请在系统设置 > 隐私与安全性 > 辅助功能 中开启。";
 "open_settings" = "打开设置";
 "later" = "稍后";
-"accessibility.banner.title" = "启用全局快捷键";
-"accessibility.banner.message" = "授予辅助功能权限以使用键盘快捷键";
+"accessibility.banner.title" = "启用辅助功能";
+"accessibility.banner.message" = "授予辅助功能权限，全屏看视频时灵动岛会自动隐藏";
 
 /* ===== 引导页 ===== */
 "onboarding.welcome.title" = "欢迎使用 Mac灵动岛";
 "onboarding.welcome.subtitle" = "专为 macOS 设计的灵动岛";
 "onboarding.permissions.title" = "所需权限";
 "onboarding.permissions.accessibility" = "辅助功能";
-"onboarding.permissions.accessibility.desc" = "用于全局快捷键和拖放功能";
+"onboarding.permissions.accessibility.desc" = "全屏看视频时隐藏灵动岛";
 "onboarding.permissions.music" = "Apple Music";
 "onboarding.permissions.music.desc" = "显示正在播放的音乐";
 "onboarding.permissions.granted" = "已授权";
