@@ -636,8 +636,8 @@ enum NotchMetrics {
         let contentHeight: CGFloat
         switch section {
         case .music:
-            // Artwork beside title, lyrics, progress and controls
-            contentHeight = 190
+            // Artwork beside title, lyrics and progress, with the controls centered below
+            contentHeight = ExpandedMusicView.height
         case .clipboard:
             // One row of 160pt cards
             contentHeight = 210
