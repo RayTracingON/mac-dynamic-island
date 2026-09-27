@@ -4,13 +4,11 @@ import Foundation
 /// Overlay is HIDDEN unless one of these reasons is active
 enum OverlayVisibilityReason: Equatable {
     case clipboard          // Clipboard changed, showing preview
-    case clipboardHistory   // Clipboard history picker
     case dragHover          // File being dragged over overlay
     case dragDetected       // Global drag detected (Boring Notch style)
     case dropComplete       // Files dropped, showing actions
     case nowPlaying         // Media playing, showing controls
     case userExpanded       // User explicitly clicked to expand
-    case hotkey             // User triggered via hotkey
     case agentPrompt        // An agent asks you something you can answer in the island
     case none               // Hidden state
     
@@ -18,7 +16,7 @@ enum OverlayVisibilityReason: Equatable {
         switch self {
         case .clipboard, .dropComplete:
             return true
-        case .clipboardHistory, .dragHover, .dragDetected, .nowPlaying, .userExpanded, .hotkey, .agentPrompt:
+        case .dragHover, .dragDetected, .nowPlaying, .userExpanded, .agentPrompt:
             return false
         case .none:
             return false

@@ -20,7 +20,6 @@
 "settings.tab.media" = "Media";
 "settings.tab.clipboard" = "Clipboard";
 "settings.tab.shelf" = "Shelf";
-"settings.tab.shortcuts" = "Shortcuts";
 "settings.tab.advanced" = "Advanced";
 "settings.tab.about" = "About";
 "settings.startup.header" = "Startup";
@@ -136,18 +135,18 @@
 
 /* ===== Accessibility Permission ===== */
 "accessibility_required_title" = "Accessibility Permission Required";
-"accessibility_required_message" = "Mac灵动岛 needs Accessibility permission to enable global hotkeys (⌘⇧Space to toggle, ⌘⌥V for clipboard) and seamless drag-drop across apps.\n\nPlease enable it in System Settings > Privacy & Security > Accessibility.";
+"accessibility_required_message" = "Mac灵动岛 needs Accessibility permission to tell a video in full screen on the built-in display from a window that's merely as large, so the island can hide while you watch.\n\nPlease enable it in System Settings > Privacy & Security > Accessibility.";
 "open_settings" = "Open Settings";
 "later" = "Later";
-"accessibility.banner.title" = "Enable Global Hotkeys";
-"accessibility.banner.message" = "Grant Accessibility permission to use keyboard shortcuts";
+"accessibility.banner.title" = "Enable Accessibility";
+"accessibility.banner.message" = "Grant Accessibility permission so the island hides while a video plays in full screen";
 
 /* ===== Onboarding ===== */
 "onboarding.welcome.title" = "Welcome to Mac灵动岛";
 "onboarding.welcome.subtitle" = "Your Dynamic Island for macOS";
 "onboarding.permissions.title" = "Required Permissions";
 "onboarding.permissions.accessibility" = "Accessibility";
-"onboarding.permissions.accessibility.desc" = "For global hotkeys and drag-drop";
+"onboarding.permissions.accessibility.desc" = "To hide the island while a video plays in full screen";
 "onboarding.permissions.music" = "Apple Music";
 "onboarding.permissions.music.desc" = "To display now playing info";
 "onboarding.permissions.granted" = "Granted";

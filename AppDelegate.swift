@@ -35,7 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Unit tests run inside this app; don't start global monitors, hotkeys
+        // Unit tests run inside this app; don't start global monitors
         // or the menu bar item while they run.
         guard !BuildConfig.isRunningUnitTests else { return }
 
@@ -93,7 +93,6 @@ class AppIntegration {
 
     // MARK: - Managers
     private var clipboardManager: ClipboardManager?
-    private var hotKeyManager: HotKeyManager?
     private var agentHookServer: AgentHookServer?
 
     private init() {}
@@ -131,12 +130,6 @@ class AppIntegration {
         clipboardManager = ClipboardManager(vault: appState.clipVault)
         clipboardManager?.start()
 
-        Task { @MainActor in
-            let ctrl = OverlayWindowController.shared
-            hotKeyManager = HotKeyManager(appState: appState, overlayController: ctrl)
-            hotKeyManager?.start()
-        }
-
         let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "app", category: "AppIntegration")
 
         // Claude Code, Codex and ZCode sessions, reported by island-claude-hook; every agent's hooks share one socket
@@ -166,7 +159,6 @@ class AppIntegration {
     func stop() {
         MusicManager.shared.stop()
         clipboardManager?.stop()
-        hotKeyManager?.stop()
         agentHookServer?.stop()
 
         // End analytics session

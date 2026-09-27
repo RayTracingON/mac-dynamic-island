@@ -28,7 +28,6 @@
 		4D5241040000000000000002 /* ClaudeTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000001 /* ClaudeTranscript.swift */; };
 		4D5241040000000000000004 /* AgentAlertSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241040000000000000003 /* AgentAlertSound.swift */; };
 		4D5241050000000000000002 /* CodexSessionIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241050000000000000001 /* CodexSessionIndex.swift */; };
-		4D5241060000000000000002 /* HotKeyManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000001 /* HotKeyManagerTests.swift */; };
 		4D5241060000000000000004 /* LyricsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241060000000000000003 /* LyricsServiceTests.swift */; };
 		4D5241070000000000000002 /* FullScreenVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000001 /* FullScreenVideo.swift */; };
 		4D5241070000000000000004 /* FullScreenVideoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5241070000000000000003 /* FullScreenVideoTests.swift */; };
@@ -81,14 +80,12 @@
 		51E1CA572F23181B009A87D2 /* SettingsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA562F23181B009A87D2 /* SettingsViews.swift */; };
 		51E1CA602F23187F009A87D2 /* ShelfSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA5D2F23187F009A87D2 /* ShelfSettingsView.swift */; };
 		51E1CA622F23187F009A87D2 /* MediaSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA5C2F23187F009A87D2 /* MediaSettingsView.swift */; };
-		51E1CA642F23187F009A87D2 /* ShortcutsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA5E2F23187F009A87D2 /* ShortcutsSettingsView.swift */; };
 		51E1CA652F23187F009A87D2 /* AppearanceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA582F23187F009A87D2 /* AppearanceSettingsView.swift */; };
 		51E1CA672F2319F9009A87D2 /* AnimatedFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA662F2319F9009A87D2 /* AnimatedFaceView.swift */; };
 		51E1CAA12F245D83009A87D2 /* BoringAnimationPhysics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CA9F2F245D83009A87D2 /* BoringAnimationPhysics.swift */; };
 		51E1CAC92F24C517009A87D2 /* NotchHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1CAC82F24C517009A87D2 /* NotchHomeView.swift */; };
 		51E49FD02F0B93E3002AD746 /* ClipboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49FCE2F0B9149002AD746 /* ClipboardManager.swift */; };
 		51E49FD12F0B93E9002AD746 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49FCD2F0B913D002AD746 /* AppState.swift */; };
-		51E49FD22F0B93F0002AD746 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49FC62F0B8FF2002AD746 /* HotKeyManager.swift */; };
 		51F1B0D52F0E0DB700B89019 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 51F1B0D22F0E0DB700B89019 /* Localizable.strings */; };
 		51F1B0E22F0E0DB700B89019 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F1B0C52F0E0DB700B89019 /* Localization.swift */; };
 		51F1B0E42F0E0DB700B89019 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F1B0C62F0E0DB700B89019 /* Log.swift */; };
@@ -173,7 +170,6 @@
 		4D5241040000000000000001 /* ClaudeTranscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeTranscript.swift; sourceTree = "<group>"; };
 		4D5241040000000000000003 /* AgentAlertSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentAlertSound.swift; sourceTree = "<group>"; };
 		4D5241050000000000000001 /* CodexSessionIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexSessionIndex.swift; sourceTree = "<group>"; };
-		4D5241060000000000000001 /* HotKeyManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManagerTests.swift; sourceTree = "<group>"; };
 		4D5241060000000000000003 /* LyricsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsServiceTests.swift; sourceTree = "<group>"; };
 		4D5241070000000000000001 /* FullScreenVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideo.swift; sourceTree = "<group>"; };
 		4D5241070000000000000003 /* FullScreenVideoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenVideoTests.swift; sourceTree = "<group>"; };
@@ -226,13 +222,11 @@
 		51E1CA582F23187F009A87D2 /* AppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingsView.swift; sourceTree = "<group>"; };
 		51E1CA5C2F23187F009A87D2 /* MediaSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSettingsView.swift; sourceTree = "<group>"; };
 		51E1CA5D2F23187F009A87D2 /* ShelfSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfSettingsView.swift; sourceTree = "<group>"; };
-		51E1CA5E2F23187F009A87D2 /* ShortcutsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsView.swift; sourceTree = "<group>"; };
 		51E1CA662F2319F9009A87D2 /* AnimatedFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedFaceView.swift; sourceTree = "<group>"; };
 		51E1CA9F2F245D83009A87D2 /* BoringAnimationPhysics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoringAnimationPhysics.swift; sourceTree = "<group>"; };
 		51E1CAC82F24C517009A87D2 /* NotchHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchHomeView.swift; sourceTree = "<group>"; };
 		51E49FAB2F0B8D41002AD746 /* Mac灵动岛.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mac灵动岛.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51E49FBE2F0B8F8E002AD746 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		51E49FC62F0B8FF2002AD746 /* HotKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManager.swift; sourceTree = "<group>"; };
 		51E49FCD2F0B913D002AD746 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		51E49FCE2F0B9149002AD746 /* ClipboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardManager.swift; sourceTree = "<group>"; };
 		51F1B0C52F0E0DB700B89019 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
@@ -414,7 +408,6 @@
 				51E1CA582F23187F009A87D2 /* AppearanceSettingsView.swift */,
 				51E1CA5C2F23187F009A87D2 /* MediaSettingsView.swift */,
 				51E1CA5D2F23187F009A87D2 /* ShelfSettingsView.swift */,
-				51E1CA5E2F23187F009A87D2 /* ShortcutsSettingsView.swift */,
 				51E1CA562F23181B009A87D2 /* SettingsViews.swift */,
 				511D73992F18D94200163A46 /* AboutView.swift */,
 				511D739A2F18D94200163A46 /* AdvancedSettingsView.swift */,
@@ -505,7 +498,6 @@
 				511D735C2F18D92700163A46 /* SystemPreferencesManager.swift */,
 				51F1B0F32F0E159D00B89019 /* ScreenManager.swift */,
 				51E49FCE2F0B9149002AD746 /* ClipboardManager.swift */,
-				51E49FC62F0B8FF2002AD746 /* HotKeyManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -595,7 +587,6 @@
 				4D52410100000000000000B2 /* ScreenManagerTests.swift */,
 				4D5241030000000000000003 /* AgentHookTests.swift */,
 				4D5241030000000000000001 /* AgentSessionStoreTests.swift */,
-				4D5241060000000000000001 /* HotKeyManagerTests.swift */,
 				4D5241060000000000000003 /* LyricsServiceTests.swift */,
 				4D5241070000000000000003 /* FullScreenVideoTests.swift */,
 			);
@@ -782,7 +773,6 @@
 				51D024662F16046D00B1FF0F /* ClipboardHubStore.swift in Sources */,
 				51E1CA602F23187F009A87D2 /* ShelfSettingsView.swift in Sources */,
 				51E1CA622F23187F009A87D2 /* MediaSettingsView.swift in Sources */,
-				51E1CA642F23187F009A87D2 /* ShortcutsSettingsView.swift in Sources */,
 				51E1CA652F23187F009A87D2 /* AppearanceSettingsView.swift in Sources */,
 				511D73212F18D90300163A46 /* ClipboardSettingsWindow.swift in Sources */,
 				511D73242F18D90300163A46 /* NSItemProvider+Extensions.swift in Sources */,
@@ -836,7 +826,6 @@
 				511D73D42F18D94200163A46 /* AudioSpectrumView.swift in Sources */,
 				51F1B11C2F0E4A1400B89019 /* NowPlayingManager.swift in Sources */,
 				519FCFBD2F1F683D00E6EE33 /* AppDelegate.swift in Sources */,
-				51E49FD22F0B93F0002AD746 /* HotKeyManager.swift in Sources */,
 				51F1B0F42F0E159D00B89019 /* ScreenManager.swift in Sources */,
 				519CDAFD2F124DD70011DA8A /* IslandInteractionState.swift in Sources */,
 				51E49FD02F0B93E3002AD746 /* ClipboardManager.swift in Sources */,
@@ -856,7 +845,6 @@
 				4D52410100000000000000B1 /* ScreenManagerTests.swift in Sources */,
 				4D5241030000000000000004 /* AgentHookTests.swift in Sources */,
 				4D5241030000000000000002 /* AgentSessionStoreTests.swift in Sources */,
-				4D5241060000000000000002 /* HotKeyManagerTests.swift in Sources */,
 				4D5241060000000000000004 /* LyricsServiceTests.swift in Sources */,
 				4D5241070000000000000004 /* FullScreenVideoTests.swift in Sources */,
 			);

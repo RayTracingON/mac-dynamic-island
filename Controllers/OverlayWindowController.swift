@@ -40,7 +40,7 @@ final class OverlayPanel: NSPanel {
 // MARK: - OverlayWindowController
 /// Keeps the islands: the main one on the display you chose (or under the mouse, with "automatically switch display"),
 /// and with "all screens" on, one more on every other display. Everything outside that asks for "the" island
-/// (hotkeys, the clipboard, Settings) gets the main one.
+/// (the clipboard, Settings, the menu bar item) gets the main one.
 @MainActor
 final class OverlayWindowController: NSObject {
 
@@ -82,7 +82,7 @@ final class OverlayWindowController: NSObject {
     }
 
     func getAppState() -> AppState { return appState }
-    /// The main island's panel, the one hotkeys and the clipboard open
+    /// The main island's panel
     var mainPanel: NSWindow { mainIsland.panel }
 
     /// Opens the island on the Agents tab, where you can answer an agent's question or permission prompt:

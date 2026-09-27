@@ -80,11 +80,6 @@ struct MainSettingsView: View {
                     Label(L("settings.tab.shelf"), systemImage: "shippingbox")
                 }
             
-            ShortcutsSettingsView()
-                .tabItem {
-                    Label(L("settings.tab.shortcuts"), systemImage: "keyboard")
-                }
-            
             AdvancedSettingsView()
                 .tabItem {
                     Label(L("settings.tab.advanced"), systemImage: "slider.horizontal.3")
