@@ -75,9 +75,7 @@ struct ExpandedMusicView: View {
     
     private var albumArtView: some View {
         Button(action: { selectCustomAlbumArt() }) {
-            Image(nsImage: musicManager.albumArt)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            AlbumArtwork(musicManager: musicManager)
                 .matchedGeometryEffect(id: "album_art", in: animation)
                 .frame(width: Self.artSize, height: Self.artSize)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -205,6 +203,29 @@ struct ExpandedMusicView: View {
                     musicManager.usingAppIconForArtwork = false
                 }
             }
+        }
+    }
+}
+
+// MARK: - Album Artwork
+/// The cover, filling the square it's given. The placeholder note isn't a cover: filling the square would blow it up
+/// and crop it, so it sits whole in the middle of a tile instead
+struct AlbumArtwork: View {
+    @ObservedObject var musicManager: MusicManager
+
+    var body: some View {
+        if musicManager.hasPlaceholderArtwork {
+            GeometryReader { geo in
+                Image(systemName: "music.note")
+                    .font(.system(size: min(geo.size.width, geo.size.height) * 0.4, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.55))
+                    .frame(width: geo.size.width, height: geo.size.height)
+            }
+            .background(Color.white.opacity(0.1))
+        } else {
+            Image(nsImage: musicManager.albumArt)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
         }
     }
 }
