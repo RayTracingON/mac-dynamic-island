@@ -19,7 +19,7 @@ class MusicManager: ObservableObject {
     @Published var songTitle: String = ""
     @Published var artistName: String = ""
     @Published var albumTitle: String = ""
-    @Published var albumArt: NSImage = NSImage(systemSymbolName: "music.note", accessibilityDescription: nil)! {
+    @Published var albumArt: NSImage = MusicManager.placeholderArtwork {
         didSet { updateAverageColor(for: albumArt) }
     }
     @Published var avgColor: NSColor = .white
@@ -62,9 +62,8 @@ class MusicManager: ObservableObject {
     private var lastArtworkData: Data?
     private var lyricsTask: Task<Void, Never>?
 
-    private static var placeholderArtwork: NSImage {
-        NSImage(systemSymbolName: "music.note", accessibilityDescription: nil)!
-    }
+    /// Shown while there's neither a cover nor the playing app's icon
+    static let placeholderArtwork = NSImage(systemSymbolName: "music.note", accessibilityDescription: nil)!
 
     private func updateAverageColor(for image: NSImage) {
         let id = ObjectIdentifier(image)
@@ -84,6 +83,9 @@ class MusicManager: ObservableObject {
     var isPlayerIdle: Bool {
         return songTitle.isEmpty && artistName.isEmpty
     }
+
+    /// The artwork is only the placeholder note, not a cover or an app icon
+    var hasPlaceholderArtwork: Bool { albumArt === Self.placeholderArtwork }
 
     /// Whether the collapsed island shows the now-playing live activity
     var showsCompactLiveActivity: Bool {

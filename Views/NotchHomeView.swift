@@ -289,9 +289,7 @@ private struct NotchLiveActivityView: View {
         NotchWingsLayout(notch: notch, wings: wings) { width in
             // A narrow wing keeps a little air around the artwork
             let artSize = min(max(16, notch.height - 12), width - 2)
-            Image(nsImage: musicManager.albumArt)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
+            AlbumArtwork(musicManager: musicManager)
                 .matchedGeometryEffect(id: "album_art", in: animation)
                 .frame(width: artSize, height: artSize)
                 .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
@@ -346,9 +344,7 @@ private struct CompactMusicLiveActivityView: View {
 
             HStack(spacing: 8) {
                 // Album art (tiny)
-                Image(nsImage: musicManager.albumArt)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+                AlbumArtwork(musicManager: musicManager)
                     .matchedGeometryEffect(id: "album_art", in: animation)
                     .frame(width: slot, height: slot)
                     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
