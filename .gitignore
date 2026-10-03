@@ -5,6 +5,7 @@ build/
 dist/
 DerivedData/
 results.txt
+marketing/
 *.backup
 *.backup.*
 *.backup_*
