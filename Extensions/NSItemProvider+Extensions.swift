@@ -34,21 +34,6 @@ extension NSItemProvider {
         }
     }
 
-    /// Async wrapper for loadObject(ofClass:completionHandler:)
-    func loadObjectAsync<T>(ofClass aClass: T.Type) async throws -> T where T : NSItemProviderReading, T : NSObject {
-        try await withCheckedThrowingContinuation { continuation in
-            self.loadObject(ofClass: aClass) { object, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else if let result = object as? T {
-                    continuation.resume(returning: result)
-                } else {
-                    continuation.resume(throwing: NSError(domain: "NSItemProvider", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to cast object to \(T.self)"]))
-                }
-            }
-        }
-    }
-
     // MARK: - Safe Extractors
     
     func extractFileURL() async -> URL? {

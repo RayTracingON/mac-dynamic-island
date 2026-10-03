@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - ClipboardHubView (The Island functional zone)
 struct ClipboardHubView: View {
     @EnvironmentObject private var appState: AppState
-    @ObservedObject var vault: IslandClipVault
+    @ObservedObject var vault: ClipboardHubStore
     
     var body: some View {
         HStack(spacing: 0) {
@@ -43,5 +43,7 @@ struct ClipboardHubView: View {
             }
         }
         .background(Color.clear)
+        // Items may have passed the retention time since the last copy
+        .onAppear { vault.applyLimits() }
     }
 }

@@ -48,6 +48,8 @@ public final class SettingsWindowController: NSObject {
 // MARK: - Main Settings View (The Tabbed Interface)
 
 struct MainSettingsView: View {
+    @EnvironmentObject private var appState: AppState
+
     var body: some View {
         TabView {
             GeneralSettingsView()
@@ -70,25 +72,20 @@ struct MainSettingsView: View {
                     Label("Agents", systemImage: "terminal")
                 }
 
-            ClipboardSettingsWindow(hubStore: OverlayWindowController.shared.getAppState().clipVault)
+            ClipboardSettingsView(store: appState.clipVault)
                 .tabItem {
                     Label(L("settings.tab.clipboard"), systemImage: "doc.on.clipboard")
                 }
 
-            ShelfSettingsView()
-                .tabItem {
-                    Label(L("settings.tab.shelf"), systemImage: "shippingbox")
-                }
-            
             AdvancedSettingsView()
                 .tabItem {
                     Label(L("settings.tab.advanced"), systemImage: "slider.horizontal.3")
                 }
-             
-             AboutView()
-                 .tabItem {
-                     Label(L("settings.tab.about"), systemImage: "info.circle")
-                 }
+
+            AboutView()
+                .tabItem {
+                    Label(L("settings.tab.about"), systemImage: "info.circle")
+                }
         }
         .frame(minWidth: 750, minHeight: 500)
         .padding()

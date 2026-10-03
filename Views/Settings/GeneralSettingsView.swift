@@ -2,14 +2,9 @@ import SwiftUI
 
 struct GeneralSettingsView: View {
     @EnvironmentObject private var appState: AppState
-    @State private var launchAtLogin = LaunchAtLogin.isEnabled
     @State private var chosenDisplay = SettingsDefaults.shared.get(SettingsDefaults.preferredDisplayUUID)
     @State private var displays = ConnectedDisplay.all
-    
-    // Sizing state
-    @State private var notchHeightMode: Int = SettingsDefaults.shared.get(SettingsDefaults.notchHeight)
-    @State private var nonNotchHeightValue: Double = SettingsDefaults.shared.get(SettingsDefaults.nonNotchHeight)
-    
+
     var body: some View {
         Form {
             // 0. Permissions
@@ -57,12 +52,6 @@ struct GeneralSettingsView: View {
                     key: SettingsDefaults.launchAtLogin,
                     title: L("settings.startup.launch_at_login"),
                     help: "电脑重启后自动启动灵动岛"
-                )
-                
-                ToggleSettingsRow(
-                    key: SettingsDefaults.menubarIcon,
-                    title: "显示菜单栏图标",
-                    help: "切换菜单栏状态图标的可见性"
                 )
             }
             
@@ -135,12 +124,6 @@ struct GeneralSettingsView: View {
                     title: L("settings.behavior.haptic_feedback"),
                     help: L("settings.behavior.haptic_feedback_help")
                 )
-                
-                ToggleSettingsRow(
-                    key: SettingsDefaults.rememberLastTab,
-                    title: "记住最后使用的标签页",
-                    help: "展开时重新打开上次使用的部分"
-                )
             }
             
             // 4. Auto Close
@@ -162,34 +145,6 @@ struct GeneralSettingsView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Text(L("settings.media.timeout_unit"))
                         .foregroundStyle(.secondary)
-                }
-            }
-            
-            // 5. Gestures
-            Section(header: Text("手势操作 (Beta)")) {
-                ToggleSettingsRow(
-                    key: SettingsDefaults.enableGestures,
-                    title: "启用手势控制",
-                    help: "允许上滑或下滑手势展开/收起灵动岛"
-                )
-                
-                ToggleSettingsRow(
-                    key: SettingsDefaults.closeGestureEnabled,
-                    title: "上滑收起",
-                    help: "通过上滑手势快速收起灵动岛"
-                )
-                
-                HStack {
-                    Text("手势灵敏度")
-                    Spacer()
-                    Slider(
-                        value: Binding(
-                            get: { SettingsDefaults.shared.get(SettingsDefaults.gestureSensitivity) },
-                            set: { SettingsDefaults.shared.set(SettingsDefaults.gestureSensitivity, value: $0) }
-                        ),
-                        in: 20...200
-                    )
-                    .frame(width: 150)
                 }
             }
         }

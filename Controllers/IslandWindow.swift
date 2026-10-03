@@ -53,8 +53,6 @@ final class IslandWindow {
             // App 在后台时，点岛的第一下会激活窗口；默认这一下不交给按钮和点按手势，要点两次才有反应
             .allowsWindowActivationEvents()
             .environmentObject(appState)
-            .environmentObject(appState.clipboardHub)
-            .environmentObject(nowPlayingManager)
             .ignoresSafeArea()
 
         let hostingView = NSHostingView(rootView: rootView)
@@ -136,10 +134,6 @@ final class IslandWindow {
                 OverlayWindowController.shared.returnFocus(from: self.panel)
             }
             .store(in: &cancellables)
-    }
-
-    func reposition() {
-        updateWindowFrame(for: appState.overlayMode, section: appState.currentSection)
     }
 
     /// 面板只在你没隐藏岛、而且岛所在的屏幕没在全屏放视频时显示

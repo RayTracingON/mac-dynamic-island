@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct MediaSettingsView: View {
-    @State private var slotLimit: Double = Double(SettingsDefaults.shared.get(SettingsDefaults.musicControlSlotLimit))
-    
     var body: some View {
         Form {
             Section(header: Text("正在播放")) {
@@ -10,12 +8,6 @@ struct MediaSettingsView: View {
                     key: SettingsDefaults.showMusicLiveActivity,
                     title: "启用实时活动",
                     help: "收起状态时在灵动岛显示歌曲信息"
-                )
-                
-                ToggleSettingsRow(
-                    key: SettingsDefaults.coloredSpectrogram,
-                    title: "多彩频谱仪",
-                    help: "从专辑封面提取颜色生成音频频谱动画"
                 )
                 
                 ToggleSettingsRow(
@@ -47,29 +39,6 @@ struct MediaSettingsView: View {
                     Text("网易云音乐").tag("netease")
                 }
                 .pickerStyle(.menu)
-            }
-            
-            Section(header: Text("控制按钮配置")) {
-                VStack(alignment: .leading, spacing: 12) {
-                    HStack {
-                        Text("显示的控制槽位数量")
-                        Spacer()
-                        Text("\(Int(slotLimit))")
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    Slider(value: $slotLimit, in: 3...7, step: 1) {
-                        EmptyView()
-                    } onEditingChanged: { editing in
-                        if !editing {
-                            SettingsDefaults.shared.set(SettingsDefaults.musicControlSlotLimit, value: Int(slotLimit))
-                        }
-                    }
-                    
-                    Text("可以调整灵动岛展开后显示的媒体控制按钮数量。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
         }
         .formStyle(.grouped)

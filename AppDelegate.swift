@@ -52,18 +52,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         overlayController = OverlayWindowController.shared
         LOG("✅ OverlayWindowController initialized")
 
-        // 2. Initialize App Integration
-        LOG("🔧 Initializing App Integration...")
-        integration.initialize()
-
-        // 3. Initialize status bar
+        // 2. Initialize status bar
         statusBarController = StatusBarController(
             appState: appState,
             overlayController: overlayController
         )
         LOG("✅ StatusBarController initialized")
 
-        // 4. Start Integration
+        // 3. Start Integration
         LOG("🟢 Starting App Integration...")
         integration.start()
 
@@ -96,28 +92,6 @@ class AppIntegration {
     private var agentHookServer: AgentHookServer?
 
     private init() {}
-
-    // MARK: - Initialization
-
-    func initialize() {
-        let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "app", category: "AppIntegration")
-        logger.info("Initializing app integration...")
-
-        // Setup analytics
-        if FeatureFlags.shared.isEnabled(.experimentalFeatures) {
-            AnalyticsManager.shared.startSession()
-        }
-
-        // Setup crash reporting
-        if BuildConfig.enableCrashReporting {
-            CrashReporter.shared.setup()
-        }
-
-        // Setup memory management
-        MemoryManager.shared.logMemoryUsage()
-
-        logger.info("App integration complete")
-    }
 
     // MARK: - Lifecycle
 
@@ -160,9 +134,6 @@ class AppIntegration {
         MusicManager.shared.stop()
         clipboardManager?.stop()
         agentHookServer?.stop()
-
-        // End analytics session
-        AnalyticsManager.shared.endSession()
 
         let logger = os.Logger(subsystem: Bundle.main.bundleIdentifier ?? "app", category: "AppIntegration")
         logger.info("All managers stopped")

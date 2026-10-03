@@ -29,6 +29,8 @@ struct AgentSettingsView: View {
                 )
             }
         }
+        .formStyle(.grouped)
+        .padding()
     }
 }
 

@@ -70,15 +70,6 @@ final class LyricsService {
                 #endif
                 return result
             }
-            
-            // 3️⃣ 尝试 QQ 音乐 API
-            if let result = await fetchFromQQMusic(title: title, artist: artist) {
-                cache[cacheKey] = result
-                #if DEBUG
-                print("🎵 [LyricsService] ✅ 从QQ音乐获取成功")
-                #endif
-                return result
-            }
         }
         
         #if DEBUG
@@ -181,14 +172,6 @@ final class LyricsService {
         } catch {
             logger.error("解析网易云歌词失败: \(error.localizedDescription)")
         }
-        return nil
-    }
-    
-    // MARK: - QQ 音乐 API
-    
-    private func fetchFromQQMusic(title: String, artist: String) async -> LyricsResult? {
-        // 🚧 TODO: 实现 QQ 音乐 API 调用
-        logger.debug("尝试从 QQ 音乐获取歌词: \(title) - \(artist)")
         return nil
     }
     

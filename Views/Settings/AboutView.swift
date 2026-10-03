@@ -52,7 +52,7 @@ struct AboutView: View {
                 
                 
                 Button("Privacy Policy") {
-                    if let url = URL(string: "www.ascidean.com/macisland/privacy") {
+                    if let url = URL(string: "https://www.ascidean.com/macisland/privacy") {
                         openURL(url)
                     }
                 }

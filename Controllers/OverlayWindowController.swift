@@ -300,10 +300,6 @@ final class OverlayWindowController: NSObject {
         islands.forEach { $0.scheduleWindowUpdate() }
     }
 
-    func reposition() {
-        islands.forEach { $0.reposition() }
-    }
-
     func show() { islands.forEach { $0.appState.isOverlayVisible = true } }
     func hide() { islands.forEach { $0.appState.isOverlayVisible = false } }
 }

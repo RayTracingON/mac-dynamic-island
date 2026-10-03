@@ -4,7 +4,6 @@ import Combine
 struct AnimatedFaceView: View {
     @State private var isBlinking = false
     @State private var lookOffset = CGSize.zero
-    @State private var isLookingAround = false
     
     // Timer for random blinks
     let blinkTimer = Timer.publish(every: 4.0, on: .main, in: .common).autoconnect()

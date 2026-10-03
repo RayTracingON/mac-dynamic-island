@@ -34,9 +34,6 @@ struct IslandClipItem: Identifiable, Codable, Equatable {
     static func == (lhs: IslandClipItem, rhs: IslandClipItem) -> Bool {
         return lhs.id == rhs.id
     }
-    
-    var isPinned: Bool { false } // TODO: Add persistence for pinning
-    var relativeTimeString: String { relativeTime }
 
     init(id: UUID = UUID(), content: String, type: ItemType, timestamp: Date = Date(), sourceBundleID: String?, sourceAppName: String?, imageData: Data?) {
         self.id = id
@@ -49,83 +46,61 @@ struct IslandClipItem: Identifiable, Codable, Equatable {
     }
 }
 
-typealias IslandClipVault = ClipboardHubStore
-
 // MARK: - ClipboardHubStore (The Island functional vault)
-// Migrated from IslandClipVault to support advanced settings
 @MainActor
 final class ClipboardHubStore: ObservableObject {
     @Published var items: [IslandClipItem] = []
 
     private let defaults: UserDefaults
+    static let historyKey = "mac_island_clipvault_v1"
+    private static let maxItemsKey = "clipboardMaxItems"
+    private static let ttlHoursKey = "clipboardTTLHours"
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
+        maxItems = defaults.object(forKey: Self.maxItemsKey) as? Int ?? 50
+        ttlHours = defaults.object(forKey: Self.ttlHoursKey) as? Int ?? 0
     }
 
-    // UI Settings
-    enum DisplayMode: String, Codable { case grid, reel }
-    @Published var displayMode: DisplayMode = .grid
-    @Published var maxItems: Int = 50
-    @Published var ttlHours: Int = 24
-    
-    // Security & Privacy
-    @Published var encryptionEnabled: Bool = false
-    @Published var touchIDEnabled: Bool = false
-    @Published var sessionTimeoutMinutes: Int = 5
-    
-    // NATIVE LIST SEARCH & FILTER
-    @Published var searchQuery: String = ""
-    @Published var currentFilter: SearchEngine.ContentFilter = .all
-    @Published var selectedItemID: UUID? = nil
-    
-    // Statistics
-    var totalItemCount: Int { items.count }
-    var imageItemCount: Int { items.filter { $0.type == .image }.count }
-    var fileItemCount: Int { fileVaultCount() }
-    
-    private func fileVaultCount() -> Int {
-        // Safe access to fileVault if it were here
-        return 0 
-    }
-    
-    var displayItems: [IslandClipItem] {
-        items.filter { item in
-            let matchesFilter = currentFilter == .all || currentFilter.matches_v1(item)
-            let matchesSearch = searchQuery.isEmpty || item.content.localizedCaseInsensitiveContains(searchQuery)
-            return matchesFilter && matchesSearch
+    /// How many items the history keeps; older ones drop off
+    @Published var maxItems: Int {
+        didSet {
+            defaults.set(maxItems, forKey: Self.maxItemsKey)
+            applyLimits()
         }
     }
-    
-    func updateSettings(maxItems: Int? = nil, ttlHours: Int? = nil, encryptionEnabled: Bool? = nil, touchIDEnabled: Bool? = nil, sessionTimeout: Int? = nil) {
-        if let m = maxItems { self.maxItems = m }
-        if let t = ttlHours { self.ttlHours = t }
-        if let e = encryptionEnabled { self.encryptionEnabled = e }
-        if let tid = touchIDEnabled { self.touchIDEnabled = tid }
-        if let s = sessionTimeout { self.sessionTimeoutMinutes = s }
-        // Note: Real implementation would persist these to UserDefaults
-    }
-    
-    func clearUnpinned() {
-        // Simple implementation: clear all (since IslandClipItem doesn't have pinned state yet)
-        clearAll()
-    }
-    
-    func pruneExpiredItems() {
-        let now = Date()
-        withAnimation {
-            items.removeAll { now.timeIntervalSince($0.timestamp) > Double(ttlHours * 3600) }
+    /// How long an item stays in the history, in hours; 0 keeps it until it drops off the end
+    @Published var ttlHours: Int {
+        didSet {
+            defaults.set(ttlHours, forKey: Self.ttlHoursKey)
+            applyLimits()
         }
     }
-    
-    // Original Logic
-    // private let maxItemsLimit = 20 // Using maxItems instead
-    
+
+    /// Drops what's over maxItems and what's older than ttlHours
+    func applyLimits() {
+        let kept = limited(items)
+        guard kept.count != items.count else { return }
+        withAnimation { items = kept }
+        saveToDisk()
+    }
+
+    private func limited(_ items: [IslandClipItem]) -> [IslandClipItem] {
+        var kept = Array(items.prefix(maxItems))
+        if ttlHours > 0 {
+            let cutoff = Date().addingTimeInterval(-Double(ttlHours) * 3600)
+            kept.removeAll { $0.timestamp < cutoff }
+        }
+        return kept
+    }
+
     func addItem(content: String, type: IslandClipItem.ItemType, sourceBundleID: String?, sourceAppName: String?, imageData: Data?) {
-        // Skip consecutive duplicates. Images all share the "[Image]" placeholder
-        // content, so their bytes must be compared as well.
-        if let last = items.first, last.content == content, last.type == type, last.imageData == imageData { return }
-        
+        // Images all share the "[Image]" placeholder content, so their bytes must be compared as well
+        let isSame = { (item: IslandClipItem) in
+            item.content == content && item.type == type && item.imageData == imageData
+        }
+        if let last = items.first, isSame(last) { return }
+
         let newItem = IslandClipItem(
             id: UUID(),
             content: content,
@@ -137,8 +112,10 @@ final class ClipboardHubStore: ObservableObject {
         )
         
         withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+            // Copied again, or pasted from the island: it moves to the front instead of showing twice
+            items.removeAll(where: isSame)
             items.insert(newItem, at: 0)
-            if items.count > maxItems { items.removeLast() }
+            items = limited(items)
         }
         saveToDisk()
     }
@@ -190,50 +167,18 @@ final class ClipboardHubStore: ObservableObject {
         }
     }
     
-    func setFilter(_ filter: SearchEngine.ContentFilter) {
-        withAnimation {
-            currentFilter = filter
-        }
-    }
-    
-    func togglePin(for item: IslandClipItem) {
-        // pinning logic placeholder
-    }
-    
-    func removeItem(_ item: IslandClipItem) {
-        withAnimation {
-            items.removeAll { $0.id == item.id }
-        }
-        saveToDisk()
-    }
-    
-    func clearSearch() {
-        searchQuery = ""
-    }
-    
-    func recordActivity() {
-        // Placeholder for activity tracking or session update
-    }
-    
-    func selectItem(_ id: UUID?) {
-        selectedItemID = id
-    }
-    
-    func getSelectedItem() -> IslandClipItem? {
-        guard let id = selectedItemID else { return nil }
-        return items.first(where: { $0.id == id })
-    }
-    
     private func saveToDisk() {
         if let data = try? JSONEncoder().encode(items) {
-            defaults.set(data, forKey: "mac_island_clipvault_v1")
+            defaults.set(data, forKey: Self.historyKey)
         }
     }
 
     func loadFromDisk() {
-        if let data = defaults.data(forKey: "mac_island_clipvault_v1"),
+        if let data = defaults.data(forKey: Self.historyKey),
            let decoded = try? JSONDecoder().decode([IslandClipItem].self, from: data) {
             items = decoded
+            // Items may have expired while the app wasn't running
+            applyLimits()
         }
     }
 }

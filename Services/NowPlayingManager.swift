@@ -213,11 +213,4 @@ final class NowPlayingManager: ObservableObject {
     func seek(to position: TimeInterval) {
         MRMediaRemoteSetElapsedTimeFunc?(position)
     }
-
-    func revealSourceApp() {
-        let identifier = currentState.sourceApp
-        guard !identifier.isEmpty,
-              let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: identifier) else { return }
-        NSWorkspace.shared.openApplication(at: appURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
-    }
 }

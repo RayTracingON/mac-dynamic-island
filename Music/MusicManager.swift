@@ -27,20 +27,12 @@ class MusicManager: ObservableObject {
     @Published var elapsedTime: Double = 0
     @Published var songDuration: Double = 0
     @Published var playbackRate: Double = 1.0
-    @Published var repeatMode: MusicRepeatMode = .off
-    @Published var isShuffled: Bool = false
-    @Published var isFavoriteTrack: Bool = false
-    @Published var volume: Double = 0.5
     @Published var bundleIdentifier: String? = nil
     @Published var applicationName: String? = nil
-    
+
     // Timestamps
     @Published var timestampDate: Date = Date()
-    
-    // Controller state
-    @Published var isNowPlayingDeprecated: Bool = false
-    @Published var volumeControlSupported: Bool = false
-    @Published var canFavoriteTrack: Bool = false
+
     @Published var usingAppIconForArtwork: Bool = false
     
     // Lyrics
@@ -50,10 +42,7 @@ class MusicManager: ObservableObject {
     
     // MARK: - Private Properties
 
-    private var activeController: MediaControllerProtocol?
-    private var controllers: [MediaControllerProtocol] = []
     private var cancellables = Set<AnyCancellable>()
-    private var lastState: PlaybackState?
     private var nowPlayingManager: NowPlayingManager?
 
     private var avgColorTask: Task<Void, Never>?
@@ -95,18 +84,10 @@ class MusicManager: ObservableObject {
     
     // MARK: - Initialization
     
-    private init() {
-        // Controllers will be initialized when start() is called
-    }
-    
+    private init() {}
+
     // MARK: - Lifecycle
-    
-    func start() {
-        // Initialize controllers
-        // Note: Actual controller instances will be created here
-        // For now, this is a placeholder
-    }
-    
+
     func connectToNowPlayingManager(_ manager: NowPlayingManager) {
         self.nowPlayingManager = manager
         
@@ -123,41 +104,27 @@ class MusicManager: ObservableObject {
     
     func stop() {
         nowPlayingManager?.stop()
-        activeController?.stop()
-        activeController = nil
     }
-    
-    func destroy() {
-        stop()
-        cancellables.removeAll()
-        avgColorTask?.cancel()
-        avgColorTask = nil
-    }
-    
+
     // MARK: - Playback Control
-    
+
     func play() {
-        activeController?.play()
         nowPlayingManager?.play()
     }
-    
+
     func pause() {
-        activeController?.pause()
         nowPlayingManager?.pause()
     }
-    
+
     func togglePlay() {
-        activeController?.togglePlayPause()
         nowPlayingManager?.playPause()
     }
-    
+
     func nextTrack() {
-        activeController?.nextTrack()
         nowPlayingManager?.nextTrack()
     }
-    
+
     func previousTrack() {
-        activeController?.previousTrack()
         nowPlayingManager?.previousTrack()
     }
     
@@ -169,86 +136,8 @@ class MusicManager: ObservableObject {
         elapsedTime = max(0, position)
         timestampDate = Date()
         currentDisplayTime = elapsedTime
+    }
 
-        activeController?.seek(to: position)
-    }
-    
-    func skip(seconds: TimeInterval) {
-        activeController?.skip(seconds: seconds)
-    }
-    
-    // MARK: - Shuffle & Repeat
-    
-    func toggleShuffle() {
-        activeController?.toggleShuffle()
-    }
-    
-    func toggleRepeat() {
-        activeController?.toggleRepeat()
-    }
-    
-    // MARK: - Favorite
-    
-    func toggleFavoriteTrack() {
-        activeController?.toggleFavorite()
-    }
-    
-    // MARK: - Volume Control
-    
-    func setVolume(to newVolume: Double) {
-        let clampedVolume = max(0, min(1, newVolume))
-        activeController?.setVolume(clampedVolume)
-        volume = clampedVolume
-    }
-    
-    func syncVolumeFromActiveApp() async {
-        guard let controller = activeController else { return }
-        let currentVolume = await controller.getVolume()
-        await MainActor.run {
-            self.volume = currentVolume
-        }
-    }
-    
-    // MARK: - App Control
-    
-    func openMusicApp() {
-        activeController?.openMusicApp()
-    }
-    
-    // MARK: - State Update
-    
-    private func updateState(_ state: PlaybackState) {
-        songTitle = state.songTitle
-        artistName = state.artistName
-        albumTitle = state.albumTitle
-        isPlaying = state.isPlaying
-        elapsedTime = state.elapsedTime
-        songDuration = state.duration
-        playbackRate = state.playbackRate
-        repeatMode = state.repeatMode
-        isShuffled = state.isShuffled
-        isFavoriteTrack = state.isFavorite
-        volume = state.volume
-        bundleIdentifier = state.bundleIdentifier
-        applicationName = state.applicationName
-        timestampDate = state.timestampDate
-        
-        // Update album art
-        if let image = state.albumArt {
-            albumArt = image
-            usingAppIconForArtwork = false
-        } else {
-            // Use app icon as fallback
-            if let bundleId = state.bundleIdentifier,
-               let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
-                albumArt = NSWorkspace.shared.icon(forFile: appURL.path)
-                usingAppIconForArtwork = true
-            }
-        }
-        
-        lastState = state
-    }
-    
     // MARK: - Lyrics
     
     func lyricLine(at time: Double) -> String {

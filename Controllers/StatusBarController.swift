@@ -6,7 +6,7 @@ import SwiftUI
 
 /// Controller for the status bar (menu bar) item
 @MainActor
-final class StatusBarController: NSObject, NSMenuDelegate {
+final class StatusBarController: NSObject {
     private var statusItem: NSStatusItem!
     private var menu: NSMenu!
     
@@ -58,23 +58,12 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         
         // Assign menu to status item
         statusItem.menu = menu
-        menu.delegate = self
-        
+
         print("[STATUS-BAR] Menu assigned: \(statusItem.menu != nil)")
         print("[STATUS-BAR] Menu item count: \(menu.items.count)")
         print("[STATUS-BAR] Status item visible: \(statusItem.isVisible)")
         print("[STATUS-BAR] Setup complete!")
         print("[STATUS-BAR] ========================================")
-    }
-    
-    // MARK: - NSMenuDelegate
-    
-    func menuWillOpen(_ menu: NSMenu) {
-        print("[STATUS-BAR] Menu will open!")
-    }
-    
-    func menuDidClose(_ menu: NSMenu) {
-        print("[STATUS-BAR] Menu closed")
     }
     
     // MARK: - Menu Creation
@@ -104,20 +93,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(settingsItem)
         
         menu.addItem(NSMenuItem.separator())
-        
-        // Debug
-        let debugMenu = NSMenu(title: "调试与开发")
-        
-        let centerItem = NSMenuItem(title: "居中显示 (重置位置)", action: #selector(onCenterDebugOverlay), keyEquivalent: "")
-        centerItem.target = self
-        debugMenu.addItem(centerItem)
-        
-        let debugItem = NSMenuItem(title: "调试模式", action: nil, keyEquivalent: "")
-        debugItem.submenu = debugMenu
-        menu.addItem(debugItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
+
         // Quit
         let quitItem = NSMenuItem(title: "退出 Mac灵动岛", action: #selector(onQuit), keyEquivalent: "q")
         quitItem.target = self
@@ -157,26 +133,6 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     @objc func onSettings() {
         print("[STATUS-BAR] onSettings called")
         SettingsWindowController.shared.showSettings()
-    }
-    
-    @objc func onCenterDebugOverlay() {
-        print("")
-        print("═══════════════════════════════════════════════════════")
-        print("[STATUS-BAR] onCenterDebugOverlay called - FORCING CENTER POSITION")
-        print("═══════════════════════════════════════════════════════")
-        
-        // Use AppState to trigger reset as we don't access window directly anymore
-        appState.isPositionLocked = true
-        appState.isMoveModeEnabled = false
-        overlayController.reposition()
-        
-        // Force visibility via app state
-        appState.isOverlayVisible = true
-        appState.overlayMode = .compact
-        
-        print("[DEBUG] Triggered state reset via AppState")
-        print("═══════════════════════════════════════════════════════")
-        print("")
     }
     
     @objc func onQuit() {

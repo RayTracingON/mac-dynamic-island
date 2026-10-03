@@ -94,8 +94,4 @@ class ThumbnailGenerationService {
     func clearCache() {
         cache.removeAllObjects()
     }
-    
-    func removeCachedThumbnail(for url: URL) {
-        cache.removeObject(forKey: url as NSURL)
-    }
 }

@@ -7,16 +7,8 @@ struct AdvancedSettingsView: View {
         Form {
             Section(header: Text("故障排除")) {
                 Button("重启应用") {
-                     let url = URL(fileURLWithPath: Bundle.main.bundlePath)
-                     NSWorkspace.shared.open(url)
-                     NSApp.terminate(nil)
+                    relaunch()
                 }
-                
-                ToggleSettingsRow(
-                    key: SettingsDefaults.settingsIconInNotch,
-                    title: "在灵动岛内显示设置图标",
-                    help: "直接在灵动岛内显示一个齿轮图标用于快速进入设置"
-                )
             }
             
             Section(header: Text("危险区域")) {
@@ -30,7 +22,7 @@ struct AdvancedSettingsView: View {
                         resetSettings()
                     }
                 } message: {
-                    Text("这将恢复所有设置为默认值。应用随后会自动重启。")
+                    Text("这将恢复所有设置为默认值（剪贴板历史会保留）。应用随后会自动重启。")
                 }
             }
         }
@@ -39,13 +31,28 @@ struct AdvancedSettingsView: View {
     }
     
     private func resetSettings() {
-        if let bundleID = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundleID)
-            
-            // Restart
-            let url = URL(fileURLWithPath: Bundle.main.bundlePath)
-            NSWorkspace.shared.open(url)
-            NSApp.terminate(nil)
+        guard let bundleID = Bundle.main.bundleIdentifier else { return }
+        let defaults = UserDefaults.standard
+        // The clipboard history is yours, not a setting
+        let history = defaults.data(forKey: ClipboardHubStore.historyKey)
+        // Off by default; clearing the key alone would leave the login item registered
+        SettingsDefaults.shared.set(SettingsDefaults.launchAtLogin, value: false)
+        defaults.removePersistentDomain(forName: bundleID)
+        if let history {
+            defaults.set(history, forKey: ClipboardHubStore.historyKey)
         }
+        relaunch()
+    }
+
+    /// Opens the app again once this copy has quit. Opening it while it still runs would only bring this copy forward
+    private func relaunch() {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/bin/sh")
+        process.arguments = [
+            "-c", "while kill -0 \(ProcessInfo.processInfo.processIdentifier) 2>/dev/null; do sleep 0.2; done; open \"$0\"",
+            Bundle.main.bundlePath,
+        ]
+        guard (try? process.run()) != nil else { return }
+        NSApp.terminate(nil)
     }
 }

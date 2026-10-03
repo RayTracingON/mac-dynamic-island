@@ -91,9 +91,7 @@ final class AudioSpectrum: NSView {
             animation.fillMode = .forwards
             animation.isRemovedOnCompletion = false
             // ✅ 降低帧率到 20fps
-            if #available(macOS 13.0, *) {
-                animation.preferredFrameRateRange = CAFrameRateRange(minimum: 15, maximum: 20, preferred: 18)
-            }
+            animation.preferredFrameRateRange = CAFrameRateRange(minimum: 15, maximum: 20, preferred: 18)
             barLayer.add(animation, forKey: "scaleY")
         }
     }

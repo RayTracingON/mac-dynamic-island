@@ -21,20 +21,9 @@ extension NSScreen {
     
     /// Check if screen has a notch
     var hasNotch: Bool {
-        if #available(macOS 12.0, *) {
-            return safeAreaInsets.top > 0
-        }
-        return false
+        safeAreaInsets.top > 0
     }
     
-    /// Get notch height for screen
-    var notchHeight: CGFloat {
-        if #available(macOS 12.0, *) {
-            return safeAreaInsets.top
-        }
-        return 0
-    }
-
     /// Size of the camera housing (notch), or .zero if the screen has none
     var notchSize: CGSize {
         guard safeAreaInsets.top > 0,

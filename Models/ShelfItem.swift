@@ -46,34 +46,6 @@ struct ShelfItem: Identifiable, Codable, Equatable {
     var isVideo: Bool { UTType(filenameExtension: fileExtension)?.conforms(to: .movie) == true }
     var isAudio: Bool { UTType(filenameExtension: fileExtension)?.conforms(to: .audio) == true }
     var isPDF: Bool { UTType(filenameExtension: fileExtension)?.conforms(to: .pdf) == true }
-    var isText: Bool { UTType(filenameExtension: fileExtension)?.conforms(to: .text) == true }
-    
-    var fileSize: Int64 {
-        (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map { Int64($0) } ?? 0
-    }
-    
-    var fileSizeFormatted: String {
-        ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file)
-    }
-    
-    var createdDate: Date {
-        get { dateAdded }
-        set { dateAdded = newValue }
-    }
-    
-    var utType: UTType? {
-        UTType(filenameExtension: fileExtension)
-    }
-
-    // MARK: - Security Scoped Support
-    
-    func startAccessing() -> Bool {
-        return url.startAccessingSecurityScopedResource()
-    }
-    
-    func stopAccessing() {
-        url.stopAccessingSecurityScopedResource()
-    }
     
     static func == (lhs: ShelfItem, rhs: ShelfItem) -> Bool {
         lhs.id == rhs.id

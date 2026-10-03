@@ -1,38 +1,9 @@
 import Foundation
 
-/// Explicit reason why overlay is currently visible
-/// Overlay is HIDDEN unless one of these reasons is active
+/// Why the island was last opened
 enum OverlayVisibilityReason: Equatable {
-    case clipboard          // Clipboard changed, showing preview
-    case dragHover          // File being dragged over overlay
-    case dragDetected       // Global drag detected (Boring Notch style)
-    case dropComplete       // Files dropped, showing actions
-    case nowPlaying         // Media playing, showing controls
+    case dragDetected       // Files dragged to the notch
     case userExpanded       // User explicitly clicked to expand
     case agentPrompt        // An agent asks you something you can answer in the island
-    case none               // Hidden state
-    
-    var shouldAutoHide: Bool {
-        switch self {
-        case .clipboard, .dropComplete:
-            return true
-        case .dragHover, .dragDetected, .nowPlaying, .userExpanded, .agentPrompt:
-            return false
-        case .none:
-            return false
-        }
-    }
-    
-    var autoHideDelay: TimeInterval {
-        switch self {
-        case .clipboard:
-            return 1.5
-        case .dropComplete:
-            return 4.0
-        case .nowPlaying:
-            return 2.0  // Show for 2s on track change
-        default:
-            return 0
-        }
-    }
+    case none
 }

@@ -10,14 +10,12 @@ final class AppState: ObservableObject {
     let settingsStore = SettingsDefaults.shared
 
     // Clipboard history shown in the clipboard tab
-    let clipVault: IslandClipVault
-    var clipboardHub: ClipboardHubStore { clipVault }
+    let clipVault: ClipboardHubStore
     /// Only the main island watches for files dragged to the notch; the drag detector knows one region
     private let tracksDrags: Bool
 
     @Published var isOverlayVisible: Bool = true
     @Published var visibilityReason: OverlayVisibilityReason = .none
-    @Published var interactionState: IslandInteractionState = .idle
     @Published var overlayMode: OverlayMode = .compact {
         didSet {
             resetAutoCloseTimer()
@@ -78,7 +76,7 @@ final class AppState: ObservableObject {
     /// State of one island. The main one owns the clipboard history and watches for dragged files;
     /// islands on the other displays (with "all screens" on) share its history
     init(sharingWith main: AppState? = nil) {
-        clipVault = main?.clipVault ?? IslandClipVault()
+        clipVault = main?.clipVault ?? ClipboardHubStore()
         tracksDrags = main == nil
 
         // Sync setting changes to AppState triggers
@@ -126,8 +124,6 @@ final class AppState: ObservableObject {
     /// Whether the app may use Accessibility. It changes in System Settings while the app runs, and the check at launch
     /// can miss it (after an update it said no while the permission worked), so refreshAXAuthorization() reads it again
     @Published var isAXAuthorized: Bool = AXIsProcessTrusted()
-    @Published var isPositionLocked: Bool = true
-    @Published var isMoveModeEnabled: Bool = false
 
     func requestAXPermission() {
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
@@ -165,18 +161,11 @@ final class AppState: ObservableObject {
     enum OverlayMode { case compact, expanded }
 
     // HELPER METHODS
-    func showOverlay(reason: OverlayVisibilityReason = .userExpanded) {
-        visibilityReason = reason; isOverlayVisible = true
-    }
     func activateOverlay(reason: OverlayVisibilityReason = .userExpanded) {
-        interactionState = .active; overlayMode = .expanded; isOverlayVisible = true; visibilityReason = reason
+        overlayMode = .expanded; isOverlayVisible = true; visibilityReason = reason
     }
     func deactivateOverlay() {
-        interactionState = .idle; overlayMode = .compact
-    }
-
-    func forceCloseOverlay() {
-        deactivateOverlay()
+        overlayMode = .compact
     }
 
     func logEvent(_ message: String) {
