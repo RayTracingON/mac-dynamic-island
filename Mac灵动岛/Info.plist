@@ -60,7 +60,7 @@
     <string>Mac灵动岛 needs access to Apple Music to display now playing information and control playback.</string>
     
     <key>NSAccessibilityUsageDescription</key>
-    <string>Mac灵动岛 uses Accessibility to tell a video in full screen on the built-in display from a window that's merely as large, so the island can hide while you watch.</string>
+    <string>Mac灵动岛 uses Accessibility to fit the island between the menus and status icons beside the notch, and to tell a video in full screen on the built-in display from a window that's merely as large, so the island can hide while you watch.</string>
 
     <!-- App Transport Security -->
     <key>NSAppTransportSecurity</key>

@@ -72,6 +72,7 @@ final class AppState: ObservableObject {
     }
 
     private var settingsCancellable: AnyCancellable?
+    private var accessibilityCancellables: [AnyCancellable] = []
     private var autoCloseTimer: Timer?
 
     /// State of one island. The main one owns the clipboard history and watches for dragged files;
@@ -91,6 +92,16 @@ final class AppState: ObservableObject {
 
         // 启动全局拖拽检测器（Boring Notch 风格）
         setupGlobalDragDetector()
+
+        // The permission is turned on or off in System Settings while the app runs. The system announces the change
+        // (the new value takes a moment to show), and you come back to the app afterwards
+        accessibilityCancellables = [
+            DistributedNotificationCenter.default().publisher(for: Notification.Name("com.apple.accessibility.api"))
+                .delay(for: .seconds(1), scheduler: DispatchQueue.main)
+                .sink { [weak self] _ in self?.refreshAXAuthorization() },
+            NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+                .sink { [weak self] _ in self?.refreshAXAuthorization() },
+        ]
     }
 
     func resetAutoCloseTimer() {
@@ -112,6 +123,8 @@ final class AppState: ObservableObject {
     }
 
     // PERMISSIONS & POSITION
+    /// Whether the app may use Accessibility. It changes in System Settings while the app runs, and the check at launch
+    /// can miss it (after an update it said no while the permission worked), so refreshAXAuthorization() reads it again
     @Published var isAXAuthorized: Bool = AXIsProcessTrusted()
     @Published var isPositionLocked: Bool = true
     @Published var isMoveModeEnabled: Bool = false
@@ -119,6 +132,13 @@ final class AppState: ObservableObject {
     func requestAXPermission() {
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
         AXIsProcessTrustedWithOptions(options as CFDictionary)
+        refreshAXAuthorization()
+    }
+
+    /// Reads the Accessibility permission again
+    func refreshAXAuthorization() {
+        let trusted = AXIsProcessTrusted()
+        if trusted != isAXAuthorized { isAXAuthorized = trusted }
     }
 
     // ENUMS
