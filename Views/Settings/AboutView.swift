@@ -36,9 +36,8 @@ struct AboutView: View {
             
             // Info
             VStack(alignment: .leading, spacing: 12) {
-                InfoRow(title: "Developer", value: "Mac灵动岛 Team")
+                InfoRow(title: "Developed By", value: "Ascidean LLC")
                 InfoRow(title: "Based on", value: "boringNotch")
-                InfoRow(title: "macOS", value: SystemPreferencesManager.shared.osVersion)
             }
             
             Divider()
@@ -46,19 +45,14 @@ struct AboutView: View {
             // Links
             VStack(spacing: 8) {
                 Button("GitHub Repository") {
-                    if let url = URL(string: "https://github.com/") {
+                    if let url = URL(string: "https://github.com/RayTracingON/mac-dynamic-island") {
                         openURL(url)
                     }
                 }
                 
-                Button("Report an Issue") {
-                    if let url = URL(string: "https://github.com/") {
-                        openURL(url)
-                    }
-                }
                 
                 Button("Privacy Policy") {
-                    if let url = URL(string: "https://github.com/") {
+                    if let url = URL(string: "www.ascidean.com/macisland/privacy") {
                         openURL(url)
                     }
                 }
@@ -68,7 +62,7 @@ struct AboutView: View {
             Spacer()
             
             // Copyright
-            Text("© 2024 Mac灵动岛. All rights reserved.")
+            Text("© 2026 Ascidean LLC. All rights reserved.")
                 .font(.caption2)
                 .foregroundColor(.secondary)
         }

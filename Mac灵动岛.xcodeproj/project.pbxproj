@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		31D8F0872E01F10E96AE9741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */; };
+		1AA19F896954EAAFCF4761E4 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = CD8FC1674EB33867B5F920CC /* AppIcon.icon */; };
 		35C45DEF006A10FE546DCB37 /* ClipboardHubStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BE0131ABE052F320F68046 /* ClipboardHubStoreTests.swift */; };
 		4D52410100000000000000A3 /* MediaRemoteAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A1 /* MediaRemoteAdapter.m */; };
 		4D52410100000000000000A4 /* libMediaRemoteAdapter.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -150,6 +151,7 @@
 /* Begin PBXFileReference section */
 		0247955385A9AC7057FE0B3B /* OverlayWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowTests.swift; sourceTree = "<group>"; };
 		12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CD8FC1674EB33867B5F920CC /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		16699883D1FCA93359C8C3D6 /* Mac灵动岛Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mac灵动岛Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D52410100000000000000A1 /* MediaRemoteAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaRemoteAdapter.m; sourceTree = "<group>"; };
 		4D52410100000000000000A2 /* libMediaRemoteAdapter.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMediaRemoteAdapter.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -484,6 +486,7 @@
 			children = (
 				CD0ABEFA9F80404A97C74C13 /* Mac灵动岛App.swift */,
 				12E7EC74DFA82BC2C76B22C4 /* Assets.xcassets */,
+				CD8FC1674EB33867B5F920CC /* AppIcon.icon */,
 			);
 			path = "Mac灵动岛";
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 			files = (
 				51F1B0D52F0E0DB700B89019 /* Localizable.strings in Resources */,
 				31D8F0872E01F10E96AE9741 /* Assets.xcassets in Resources */,
+				1AA19F896954EAAFCF4761E4 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
