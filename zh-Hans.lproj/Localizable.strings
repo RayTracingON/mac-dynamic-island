@@ -158,18 +158,18 @@
 
 /* ===== 辅助功能权限 ===== */
 "accessibility_required_title" = "需要辅助功能权限";
-"accessibility_required_message" = "Mac灵动岛需要辅助功能权限，才能在内建屏幕上分辨视频是在全屏播放还是窗口恰好一样大，从而在你全屏看视频时隐藏灵动岛。\n\n请在系统设置 > 隐私与安全性 > 辅助功能 中开启。";
+"accessibility_required_message" = "Mac灵动岛需要辅助功能权限，才能让刘海旁的内容避开菜单和状态栏图标，并在内建屏幕上分辨视频是在全屏播放还是窗口恰好一样大，从而在你全屏看视频时隐藏灵动岛。\n\n请在系统设置 > 隐私与安全性 > 辅助功能 中开启。";
 "open_settings" = "打开设置";
 "later" = "稍后";
 "accessibility.banner.title" = "启用辅助功能";
-"accessibility.banner.message" = "授予辅助功能权限，全屏看视频时灵动岛会自动隐藏";
+"accessibility.banner.message" = "授予辅助功能权限，灵动岛会避开菜单栏图标，全屏看视频时自动隐藏";
 
 /* ===== 引导页 ===== */
 "onboarding.welcome.title" = "欢迎使用 Mac灵动岛";
 "onboarding.welcome.subtitle" = "专为 macOS 设计的灵动岛";
 "onboarding.permissions.title" = "所需权限";
 "onboarding.permissions.accessibility" = "辅助功能";
-"onboarding.permissions.accessibility.desc" = "全屏看视频时隐藏灵动岛";
+"onboarding.permissions.accessibility.desc" = "避开菜单栏图标，全屏看视频时隐藏灵动岛";
 "onboarding.permissions.music" = "Apple Music";
 "onboarding.permissions.music.desc" = "显示正在播放的音乐";
 "onboarding.permissions.granted" = "已授权";

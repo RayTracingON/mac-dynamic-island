@@ -45,7 +45,7 @@ The unit tests in `Mac灵动岛Tests` are hosted by the app. When it runs as a t
 
 | Permission | Used for |
 |---|---|
-| Accessibility | Telling a video in full screen on the built-in display from a window that's merely as large. Settings → General has a button to request it. |
+| Accessibility | Fitting the collapsed island between the menus and the status icons beside the notch, and telling a video in full screen on the built-in display from a window that's merely as large. Settings → General has a button to request it. |
 | Automation (Apple Events) | Reading lyrics from Music, pasting clipboard items through System Events, and selecting an agent session's tab in Terminal or iTerm2. |
 
 ## Distribution

@@ -260,6 +260,19 @@ final class OverlayWindowTests: XCTestCase {
         XCTAssertEqual(state.liveActivitySection, .music, "unless it doesn't show beside the notch")
     }
 
+    func testTheAccessibilityPermissionIsReadAgainWhenYouComeBack() {
+        let state = OverlayWindowController.shared.getAppState()
+        state.refreshAXAuthorization()
+        let trusted = state.isAXAuthorized
+        defer { state.isAXAuthorized = trusted }
+
+        // What a check at launch that came too early left behind
+        state.isAXAuthorized = !trusted
+        // Coming back to the app, from System Settings say
+        NotificationCenter.default.post(name: NSApplication.didBecomeActiveNotification, object: NSApp)
+        XCTAssertEqual(state.isAXAuthorized, trusted, "Settings shows the permission as it is now")
+    }
+
     func testEachTabOpensToItsOwnSize() throws {
         let state = OverlayWindowController.shared.getAppState()
         let panel = try islandPanel()

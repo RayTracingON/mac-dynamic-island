@@ -43,11 +43,13 @@ struct GeneralSettingsView: View {
                 .padding(.vertical, 4)
                 
                 if !appState.isAXAuthorized {
-                    Text("需要此权限以从 QQ音乐、网易云音乐等第三方应用获取音乐状态。")
+                    Text("用于让刘海旁的内容避开菜单和状态栏图标，以及在内建屏幕上分辨视频是否在全屏播放。")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
             }
+            // Read the permission again rather than show what it was at launch
+            .onAppear { appState.refreshAXAuthorization() }
             
             // 1. System Features
             Section(header: Text(L("settings.startup.header"))) {
