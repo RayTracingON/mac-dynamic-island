@@ -52,6 +52,8 @@ The unit tests in `Mac灵动岛Tests` are hosted by the app. When it runs as a t
 
 The app ships outside the Mac App Store. It is not sandboxed, because the MediaRemote framework and AppleScript control of other apps don't work in the sandbox. Sign it with a Developer ID certificate (Hardened Runtime is on) and notarize it. The only entitlement is Apple Events.
 
+To release, archive in Xcode and export with Distribute App → Direct Distribution, which signs and notarizes the app. Then `./make_dmg.sh path/to/Mac灵动岛.app` wraps it in `dist/MacDynamicIsland-<version>.dmg` with an Applications shortcut, signs the image with the app's Developer ID identity, notarizes and staples it, and prints its SHA-256. Notarizing the image uses a notarytool keychain profile, saved once with `xcrun notarytool store-credentials mac-dynamic-island --apple-id <Apple ID> --team-id 66233X8P8H` (`NOTARY_PROFILE` picks another name). `--skip-notarize` makes an image for local testing only: Gatekeeper rejects a disk image that isn't notarized itself, even when the app inside is.
+
 ## Project layout
 
 ```text
